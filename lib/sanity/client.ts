@@ -18,133 +18,104 @@ import {
 } from "./groq";
 import { createClient } from "next-sanity";
 
-if (!projectId) {
-  console.error(
-    "The Sanity Project ID is not set. Check your environment variables."
-  );
-}
-
 /**
- * Checks if it's safe to create a client instance, as `@sanity/client` will throw an error if `projectId` is false
+ * Create client instance with hardcoded values
  */
-const client = projectId
-  ? createClient({ projectId, dataset, apiVersion, useCdn })
-  : null;
+const client = createClient({ projectId, dataset, apiVersion, useCdn });
 
 export const fetcher = async ([query, params]) => {
-  return client ? client.fetch(query, params) : [];
+  return client.fetch(query, params);
 };
 
 export async function getAllPosts() {
-  if (client) {
-    return (await client.fetch(postquery)) || [];
-  }
-  return [];
+  return (await client.fetch(postquery)) || [];
 }
 
 export async function getSettings() {
-  if (client) {
-    return (await client.fetch(configQuery)) || [];
-  }
-  return [];
+  return (await client.fetch(configQuery)) || [];
 }
 
 export async function getPostBySlug(slug) {
-  if (client) {
-    return (await client.fetch(singlequery, { slug })) || {};
-  }
-  return {};
+  return (await client.fetch(singlequery, { slug })) || {};
 }
 
 export async function getAllPostsSlugs() {
-  if (client) {
-    const slugs = (await client.fetch(pathquery)) || [];
-    return slugs.map(slug => ({ slug }));
-  }
-  return [];
+  const slugs = (await client.fetch(pathquery)) || [];
+  return slugs.map(slug => ({ slug }));
 }
 // Author
 export async function getAllAuthorsSlugs() {
-  if (client) {
+  
     const slugs = (await client.fetch(authorsquery)) || [];
     return slugs.map(slug => ({ author: slug }));
-  }
-  return [];
+
 }
 
 export async function getAuthorPostsBySlug(slug) {
-  if (client) {
+  
     return (await client.fetch(postsbyauthorquery, { slug })) || {};
-  }
-  return {};
+
 }
 
 export async function getAllAuthors() {
-  if (client) {
+  
     return (await client.fetch(allauthorsquery)) || [];
-  }
-  return [];
+
 }
 
 // Category
 
 export async function getAllCategories() {
-  if (client) {
+  
     const slugs = (await client.fetch(catpathquery)) || [];
     return slugs.map(slug => ({ category: slug }));
-  }
-  return [];
+
 }
 
 export async function getPostsByCategory(slug) {
-  if (client) {
+  
     return (await client.fetch(postsbycatquery, { slug })) || {};
-  }
-  return {};
+
 }
 
 export async function getTopCategories() {
-  if (client) {
+  
     return (await client.fetch(catquery)) || [];
-  }
-  return [];
+
 }
 
 export async function getPaginatedPosts({ limit, pageIndex = 0 }) {
-  if (client) {
+  
     return (
       (await client.fetch(paginatedquery, {
         pageIndex: pageIndex,
         limit: limit
       })) || []
     );
-  }
-  return [];
+
 }
 
 export async function searchPosts(query = "") {
-  if (client) {
+  
     return (
       (await client.fetch(searchquery, {
         query: query
       })) || []
     );
-  }
-  return [];
+
 }
 
 // Best Tools helpers
 export async function getAllBestToolsSlugs() {
-  if (client) {
+  
     const slugs = (await client.fetch(bestToolsSlugsQuery)) || [];
     return slugs.map(slug => ({ slug }));
-  }
-  return [];
+
 }
 
 export async function getBestToolsBySlug(slug: string) {
-  if (client) {
+  
     return (await client.fetch(bestToolsBySlugQuery, { slug })) || null;
-  }
+
   return null;
 }
