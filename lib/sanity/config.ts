@@ -11,7 +11,8 @@ export const useCdn = process.env.NODE_ENV === "production";
 // SANITY_STUDIO_ for 3333 & *.sanity.studio
 export const projectId =
   process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ||
-  (process.env.SANITY_STUDIO_PROJECT_ID as string);
+  process.env.SANITY_STUDIO_PROJECT_ID ||
+  "wfhx1x7v";
 
 export const dataset =
   process.env.NEXT_PUBLIC_SANITY_DATASET || ("production" as string);
