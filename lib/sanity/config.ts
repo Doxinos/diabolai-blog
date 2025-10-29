@@ -9,10 +9,7 @@ export const useCdn = process.env.NODE_ENV === "production";
 // both .env required to work
 // NEXT_PUBLIC_ for 3000
 // SANITY_STUDIO_ for 3333 & *.sanity.studio
-export const projectId =
-  process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ||
-  process.env.SANITY_STUDIO_PROJECT_ID ||
-  "wfhx1x7v";
+export const projectId = "wfhx1x7v";
 
 export const dataset =
   process.env.NEXT_PUBLIC_SANITY_DATASET || ("production" as string);
