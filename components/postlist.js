@@ -24,7 +24,7 @@ export default function PostList({
             "aspect-3/2"
           )}>
           <Link
-            href={`/post/${pathPrefix ? `${pathPrefix}/` : ""}${
+            href={`/${pathPrefix ? `${pathPrefix}/` : ""}${
               post.slug?.current
             }`}>
             {imageProps ? (
@@ -55,7 +55,7 @@ export default function PostList({
           </div>
           <h2 className="mt-2 text-xl font-normal leading-snug tracking-wider text-gray-800 dark:text-gray-100">
             <Link
-              href={`/post/${pathPrefix ? `${pathPrefix}/` : ""}${
+              href={`/${pathPrefix ? `${pathPrefix}/` : ""}${
                 post.slug?.current
               }`}>
               <span>

@@ -95,10 +95,10 @@ export async function getPaginatedPosts({ limit, pageIndex = 0 }) {
 
 }
 
-export async function searchPosts(query = "") {
+export async function searchPosts(searchTerm = "") {
     return (
       (await client.fetch(searchquery, {
-        query
+        query: searchTerm
       })) || []
     );
 }
