@@ -1,20 +1,22 @@
 import "@/styles/tailwind.css";
 import { Providers } from "./providers";
 import { cx } from "@/utils/all";
-import { Inter, Lora } from "next/font/google";
+import { Poppins, Roboto } from "next/font/google";
 import { getSettings } from "@/lib/sanity/client";
 import Footer from "@/components/footer";
 import GetNavbar from "@/components/getnavbar";
 import { urlForImage } from "@/lib/sanity/image";
 
-const inter = Inter({
+const poppins = Poppins({
   subsets: ["latin"],
-  variable: "--font-inter"
+  variable: "--font-poppins",
+  weight: ["400", "700"]
 });
 
-const lora = Lora({
+const roboto = Roboto({
   subsets: ["latin"],
-  variable: "--font-lora"
+  variable: "--font-roboto",
+  weight: ["400", "500"]
 });
 
 async function sharedMetaData(params: any) {
@@ -74,11 +76,11 @@ export default async function Layout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={cx(inter.variable, lora.variable)}>
-      <body className="text-gray-800 antialiased dark:bg-black dark:text-gray-400">
+      className={cx(poppins.variable, roboto.variable)}>
+      <body className="text-gray-800 antialiased dark:bg-dark-background dark:text-gray-400">
         <Providers>
           <GetNavbar {...settings} />
-          <div>{children}</div>
+          <main>{children}</main>
           <Footer {...settings} />
         </Providers>
       </body>

@@ -11,13 +11,32 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        brand: {
+          50: "#f0f0ff",
+          100: "#e0e1ff",
+          200: "#c8c9ff",
+          300: "#a9afff",
+          400: "#888cff",
+          500: "#6a6fff",
+          600: "#5056ff",
+          700: "#3f46ff",
+          800: "#353ccc",
+          900: "#3037a3",
+          950: "#1b1f5f"
+        },
+        dark: {
+          background: '#27292d'
+        },
         gray: colors.neutral
       },
       fontFamily: {
         // to change, update font in _document.js
-        sans: ["var(--font-inter)", ...defaultTheme.fontFamily.sans],
-        serif: ["var(--font-lora)", ...defaultTheme.fontFamily.serif],
+        sans: ["var(--font-roboto)", ...defaultTheme.fontFamily.sans],
+        serif: ["var(--font-poppins)", ...defaultTheme.fontFamily.serif],
         stock: [defaultTheme.fontFamily.sans]
+      },
+      boxShadow: {
+        'lifted': '0 15px 30px rgba(0,0,0,0.2), 10px 10px 15px rgba(0,0,0,0.15), -10px 10px 15px rgba(0,0,0,0.15)',
       },
       aspectRatio: {
         "4/3": "4 / 3",
