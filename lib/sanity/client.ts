@@ -96,13 +96,11 @@ export async function getPaginatedPosts({ limit, pageIndex = 0 }) {
 }
 
 export async function searchPosts(query = "") {
-  
     return (
       (await client.fetch(searchquery, {
-        query: query
+        query
       })) || []
     );
-
 }
 
 // Best Tools helpers

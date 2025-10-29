@@ -19,7 +19,7 @@ export default function Newsletter() {
         Sign Up For Newsletter
       </h2>
       <p className="mt-2 text-gray-600 dark:text-gray-400">
-        We'll send you regular dispatches from Diabol AI — with exclusive content and productivity best practice.
+        We&apos;ll send you regular dispatches from Diabol AI — with exclusive content and productivity best practice.
       </p>
       <form onSubmit={handleSubmit} className="mt-4 flex max-w-md mx-auto">
         <input
