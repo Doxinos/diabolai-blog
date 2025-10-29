@@ -1,13 +1,10 @@
 import Container from "@/components/container";
 import { PortableText } from "@/lib/sanity/plugins/portabletext";
 import { bestToolsQuery } from "@/lib/sanity/groq";
-import { createClient } from "next-sanity";
-import { apiVersion, dataset, projectId, useCdn } from "@/lib/sanity/config";
-
-const client = createClient({ projectId, dataset, apiVersion, useCdn });
+import { fetcher } from "@/lib/sanity/client";
 
 export default async function BestToolsPage() {
-  const data = await client.fetch(bestToolsQuery);
+  const data = await fetcher([bestToolsQuery, {}]);
 
   return (
     <Container>
