@@ -29,7 +29,7 @@ export default function Post(props) {
   return (
     <>
       <Container className="!pt-0">
-        <div className="mx-auto max-w-screen-md ">
+        <div className="max-w-screen-md ">
           <div className="flex justify-start">
             <CategoryLabel categories={post.categories} />
           </div>
@@ -104,11 +104,11 @@ export default function Post(props) {
       </div>
 
       <Container>
-        <article className="mx-auto max-w-screen-md ">
-          <div className="prose mx-auto my-3 dark:prose-invert prose-a:text-blue-600">
+        <article className="max-w-screen-md ">
+          <div className="prose my-3 dark:prose-invert prose-a:text-blue-600">
             {post.body && <PortableText value={post.body} />}
           </div>
-          <div className="mb-7 mt-7 flex justify-center">
+          <div className="mb-7 mt-7 flex justify-start">
             <Link
               href="/"
               className="bg-brand-secondary/20 rounded-full px-5 py-2 text-sm text-blue-600 dark:text-blue-500 ">
