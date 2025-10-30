@@ -38,7 +38,7 @@ export default function Post(props) {
             {post.title}
           </h1>
 
-          <div className="mt-3 flex justify-start space-x-3 text-gray-500 ">
+          <div className="mt-3 mb-8 flex justify-start space-x-3 text-gray-500 ">
             <div className="flex items-center gap-3">
               <div className="relative h-10 w-10 flex-shrink-0">
                 {AuthorimageProps && (
@@ -104,8 +104,8 @@ export default function Post(props) {
       </div>
 
       <Container>
-        <article className="max-w-screen-md ">
-          <div className="prose my-3 dark:prose-invert prose-a:text-blue-600">
+        <article className="mx-auto max-w-screen-md ">
+          <div className="prose mx-auto my-3 dark:prose-invert prose-a:text-blue-600">
             {post.body && <PortableText value={post.body} />}
           </div>
           <div className="mb-7 mt-7 flex justify-start">
