@@ -18,7 +18,7 @@ export default function Post({ posts }) {
       </div>
       {posts && (
         <Container large={true}>
-          <div className="grid grid-cols-1 gap-10 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-0 sm:grid-cols-2">
             {posts.map(post => (
               <PostList
                 key={post._id}
