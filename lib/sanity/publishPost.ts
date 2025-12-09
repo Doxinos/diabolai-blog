@@ -71,11 +71,12 @@ export async function uploadImageFromFile(
   const fs = await import("fs");
   const path = await import("path");
 
-  const buffer = fs.readFileSync(filePath);
-  const blob = new Blob([buffer]);
   const finalFilename = filename || path.basename(filePath);
 
-  const asset = await writeClient.assets.upload("image", blob, {
+  // Use createReadStream for Sanity client compatibility
+  const stream = fs.createReadStream(filePath);
+
+  const asset = await writeClient.assets.upload("image", stream, {
     filename: finalFilename,
   });
 

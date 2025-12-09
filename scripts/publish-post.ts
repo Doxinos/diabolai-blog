@@ -16,19 +16,8 @@ import * as fs from "fs";
 import * as path from "path";
 import { config } from "dotenv";
 
-// Load environment variables from .env.local
+// Load environment variables from .env.local BEFORE importing Sanity modules
 config({ path: ".env.local" });
-
-// Import after env vars are loaded
-import {
-  createPost,
-  uploadImageFromUrl,
-  uploadImageFromFile,
-  getAuthorIdBySlug,
-  getCategoryIdsBySlugs,
-  type PostInput,
-} from "../lib/sanity/publishPost";
-import { generateBlogHeroImage } from "../lib/ai/generateImage";
 
 // Local blog images folder
 const BLOG_IMAGES_DIR = path.join(process.cwd(), "assets", "blog-images");
@@ -76,6 +65,16 @@ const DRAFT_FILE = path.join(process.cwd(), "scripts", "draft-post.json");
 
 async function main() {
   console.log("\n📝 Blog Post Publisher\n");
+
+  // Dynamic imports AFTER env vars are loaded
+  const {
+    createPost,
+    uploadImageFromUrl,
+    uploadImageFromFile,
+    getAuthorIdBySlug,
+    getCategoryIdsBySlugs,
+  } = await import("../lib/sanity/publishPost");
+  const { generateBlogHeroImage } = await import("../lib/ai/generateImage");
 
   // Check for draft file
   if (!fs.existsSync(DRAFT_FILE)) {
@@ -140,7 +139,7 @@ async function main() {
   console.log("");
 
   // Build post input
-  const postInput: PostInput = {
+  const postInput: Parameters<typeof createPost>[0] = {
     title: draft.title,
     excerpt: draft.excerpt,
     directAnswer: draft.directAnswer,
