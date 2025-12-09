@@ -384,6 +384,52 @@ Use the prompt from `lib/ai/seoStructure.ts` when generating content:
 
 ---
 
+## Troubleshooting & Known Issues (Updated Dec 9, 2025)
+
+### Issues Fixed in Code (Permanent)
+
+These issues have been resolved with code changes and won't recur:
+
+| Issue | Solution | Files Changed |
+|-------|----------|---------------|
+| **Posts without authors crash build** | Added null checks and conditional rendering | `featured.js`, `default.js`, `lifestyle.js`, `minimal.js`, `sidebar.js` |
+| **TL;DR not displaying** | Added TL;DR rendering to all 4 post templates | `default.js`, `lifestyle.js`, `minimal.js`, `sidebar.js` |
+| **Direct Answer not displaying** | Added Direct Answer rendering to all templates | Same as above |
+| **TL;DR misaligned with content** | Added `mx-auto` and proper prose classes | Same as above |
+| **TL;DR needs visual distinction** | Added blue left border (`border-l-4 border-blue-500`) | Same as above |
+| **Homepage post cards have gaps** | Changed `gap-10` to `gap-0` in grid | `home.js` |
+| **Author name cluttering homepage** | Removed author from PostList component | `postlist.js` |
+
+### Things to Remember
+
+1. **CTA URL must be full URL** - Use `https://calendly.com/peter-diabol/30min` not `/contact`
+2. **Author is optional** - Posts will display without author info if not assigned
+3. **`updatedAt` is manual** - Update this field in Sanity Studio for SEO freshness signals
+4. **Schema deployment** - If you add new fields to schemas, run `npx sanity deploy` from the project root
+5. **Categories available** - AI, Automation, Voice AI, Strategy (slugs: `ai`, `automation`, `voice-ai`, `strategy`)
+
+### Post Templates
+
+The blog has 4 post templates, all now support TL;DR and Direct Answer:
+
+| Route | Template | Description |
+|-------|----------|-------------|
+| `/{slug}` | `default.js` | Main template (most posts use this) |
+| `/post/sidebar/{slug}` | `sidebar.js` | With sidebar navigation |
+| `/post/lifestyle/{slug}` | `lifestyle.js` | Full-width hero image |
+| `/post/minimal/{slug}` | `minimal.js` | Clean, minimal design |
+
+### Sanity Studio Settings
+
+Configure these in Sanity Studio under **Content → Settings**:
+
+- **URL**: `https://blog.diabolai.com`
+- **Copyright Name**: `Diabol AI`
+- **Logo Alt Text**: `Diabol AI logo`
+- **Meta Description**: Your site description for SEO
+
+---
+
 ## Next Steps
 
 1. [x] ~~Set up Airtable integration~~
