@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://stablo-pro.web3templates.com
+Host: https://diabol-blog-8pxvivd45-peter-ferms-projects.vercel.app
 
 # Sitemaps
-Sitemap: https://stablo-pro.web3templates.com/sitemap.xml
+Sitemap: https://diabol-blog-8pxvivd45-peter-ferms-projects.vercel.app/sitemap.xml

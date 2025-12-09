@@ -32,6 +32,27 @@ import { generateBlogHeroImage } from "../lib/ai/generateImage";
 
 // Local blog images folder
 const BLOG_IMAGES_DIR = path.join(process.cwd(), "assets", "blog-images");
+const USED_IMAGES_FILE = path.join(BLOG_IMAGES_DIR, "used-images.json");
+
+/**
+ * Mark an image as used so it won't be picked again
+ */
+function markImageAsUsed(filename: string): void {
+  let data = { description: "Tracks which images have been used in blog posts", used: [] as string[] };
+
+  if (fs.existsSync(USED_IMAGES_FILE)) {
+    try {
+      data = JSON.parse(fs.readFileSync(USED_IMAGES_FILE, "utf-8"));
+    } catch {
+      // If file is corrupted, start fresh
+    }
+  }
+
+  if (!data.used.includes(filename)) {
+    data.used.push(filename);
+    fs.writeFileSync(USED_IMAGES_FILE, JSON.stringify(data, null, 2));
+  }
+}
 
 interface DraftPost {
   title: string;
@@ -176,6 +197,7 @@ async function main() {
         console.log(`🖼️  Uploading local image: ${draft.image}`);
         try {
           imageAsset = await uploadImageFromFile(localPath);
+          markImageAsUsed(draft.image);
           console.log(`   ✓ Image uploaded`);
         } catch (err) {
           console.log(`   ⚠️  Image upload failed: ${err}`);

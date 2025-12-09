@@ -7,10 +7,14 @@ Pre-generated Midjourney images for blog posts.
 - **Recommended size**: 1920x1080 or larger
 
 ## Naming Convention
-Use descriptive names like:
-- `ai-transformation-heart.png`
-- `automation-pipeline-abstract.png`
-- `future-tech-blue.png`
+Use descriptive names that hint at the mood/theme:
+- `ai-abstract-blue.png`
+- `automation-gears-orange.png`
+- `tech-future-dark.png`
+- `data-flow-purple.png`
+
+## Tracking Used Images
+The `used-images.json` file tracks which images have been used. When publishing a post, the script automatically adds the image filename to this list so the same image won't be suggested twice.
 
 ## Usage
 
