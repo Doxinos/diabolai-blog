@@ -407,6 +407,7 @@ These issues have been resolved with code changes and won't recur:
 3. **`updatedAt` is manual** - Update this field in Sanity Studio for SEO freshness signals
 4. **Schema deployment** - If you add new fields to schemas, run `npx sanity deploy` from the project root
 5. **Categories available** - AI, Automation, Voice AI, Strategy (slugs: `ai`, `automation`, `voice-ai`, `strategy`)
+6. **Image alt text** - Always include `imageAlt` in draft JSON. If missing, the title is used as fallback. Check Sanity Studio to verify alt text was saved.
 
 ### Post Templates
 
