@@ -54,23 +54,25 @@ export default function Featured({ post, pathPrefix }) {
 
             <div className="flex mt-4 space-x-3 text-gray-500 md:mt-8 ">
               <div className="flex flex-col gap-3 md:items-center md:flex-row">
-                <div className="flex items-center gap-3">
-                  <div className="relative flex-shrink-0 w-5 h-5">
-                    {AuthorimageProps && (
-                      <Image
-                        src={AuthorimageProps.src}
-                        alt={post?.author?.name}
-                        className="object-cover rounded-full"
-                        fill
-                        sizes="100vw"
-                      />
-                    )}
+                {post.author && (
+                  <div className="flex items-center gap-3">
+                    <div className="relative flex-shrink-0 w-5 h-5">
+                      {AuthorimageProps && (
+                        <Image
+                          src={AuthorimageProps.src}
+                          alt={post?.author?.name}
+                          className="object-cover rounded-full"
+                          fill
+                          sizes="100vw"
+                        />
+                      )}
+                    </div>
+                    <p className="text-gray-100 ">
+                      {post.author.name}{" "}
+                      <span className="hidden pl-2 md:inline"> ·</span>
+                    </p>
                   </div>
-                  <p className="text-gray-100 ">
-                    {post.author.name}{" "}
-                    <span className="hidden pl-2 md:inline"> ·</span>
-                  </p>
-                </div>
+                )}
 
                 <div>
                   <div className="flex space-x-2 text-sm md:flex-row md:items-center">

@@ -47,28 +47,30 @@ export default function Post(props) {
 
           <div className="mt-8 flex space-x-3 text-gray-500 ">
             <div className="flex flex-col gap-3 md:flex-row md:items-center">
-              <div className="flex gap-3">
-                <div className="relative h-5 w-5 flex-shrink-0">
-                  {AuthorimageProps && (
-                    <Link
-                      href={`/author/${post.author.slug.current}`}>
-                      <Image
-                        src={AuthorimageProps.src}
-                        alt={post?.author?.name}
-                        className="rounded-full object-cover"
-                        fill
-                        sizes="100vw"
-                      />
-                    </Link>
-                  )}
+              {post.author && (
+                <div className="flex gap-3">
+                  <div className="relative h-5 w-5 flex-shrink-0">
+                    {AuthorimageProps && (
+                      <Link
+                        href={`/author/${post.author.slug?.current}`}>
+                        <Image
+                          src={AuthorimageProps.src}
+                          alt={post?.author?.name}
+                          className="rounded-full object-cover"
+                          fill
+                          sizes="100vw"
+                        />
+                      </Link>
+                    )}
+                  </div>
+                  <p className="text-gray-100 ">
+                    <Link href={`/author/${post.author.slug?.current}`}>
+                      {post.author.name}
+                    </Link>{" "}
+                    <span className="hidden pl-2 md:inline"> ·</span>
+                  </p>
                 </div>
-                <p className="text-gray-100 ">
-                  <Link href={`/author/${post.author.slug.current}`}>
-                    {post.author.name}
-                  </Link>{" "}
-                  <span className="hidden pl-2 md:inline"> ·</span>
-                </p>
-              </div>
+              )}
 
               <div>
                 <div className="flex space-x-2 text-sm md:flex-row md:items-center">
@@ -93,6 +95,31 @@ export default function Post(props) {
       {/* {post?.mainImage && <MainImage image={post.mainImage} />} */}
       <Container>
         <article className="mx-auto max-w-screen-md ">
+          {/* Direct Answer for AI/SEO */}
+          {post.directAnswer && (
+            <div className="mb-8 rounded-lg bg-blue-50 p-6 dark:bg-blue-900/20">
+              <p className="text-lg font-medium text-gray-800 dark:text-gray-200">
+                {post.directAnswer}
+              </p>
+            </div>
+          )}
+
+          {/* TL;DR Section */}
+          {post.tldr && post.tldr.length > 0 && (
+            <div className="mb-8 rounded-lg bg-gray-100 p-6 dark:bg-gray-800">
+              <h2 className="mb-4 text-lg font-bold text-gray-900 dark:text-white">
+                TL;DR
+              </h2>
+              <ul className="list-disc space-y-2 pl-5">
+                {post.tldr.map((item, index) => (
+                  <li key={index} className="text-gray-700 dark:text-gray-300">
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
           <div className="prose prose-lg mx-auto my-3 dark:prose-invert prose-a:text-blue-500">
             {post.body && <PortableText value={post.body} />}
           </div>
