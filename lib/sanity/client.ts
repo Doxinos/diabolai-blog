@@ -99,7 +99,7 @@ export async function searchPosts(searchTerm = "") {
     return (
       (await client.fetch(searchquery, {
         query: searchTerm
-      })) || []
+      } as Record<string, string>)) || []
     );
 }
 
@@ -112,8 +112,5 @@ export async function getAllBestToolsSlugs() {
 }
 
 export async function getBestToolsBySlug(slug: string) {
-  
     return (await client.fetch(bestToolsBySlugQuery, { slug })) || null;
-
-  return null;
 }
