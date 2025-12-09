@@ -23,11 +23,15 @@ config({ path: ".env.local" });
 import {
   createPost,
   uploadImageFromUrl,
+  uploadImageFromFile,
   getAuthorIdBySlug,
   getCategoryIdsBySlugs,
   type PostInput,
 } from "../lib/sanity/publishPost";
 import { generateBlogHeroImage } from "../lib/ai/generateImage";
+
+// Local blog images folder
+const BLOG_IMAGES_DIR = path.join(process.cwd(), "assets", "blog-images");
 
 interface DraftPost {
   title: string;
@@ -37,8 +41,8 @@ interface DraftPost {
   body: string;
   authorSlug?: string;
   categorySlug?: string[];
-  imageUrl?: string;
-  imagePrompt?: string; // Generate image from prompt if no imageUrl
+  image?: string; // Filename from assets/blog-images/ OR full URL
+  imagePrompt?: string; // Generate image from prompt if no image
   imageAlt?: string;
   cta?: {
     text: string;
@@ -72,7 +76,7 @@ async function main() {
           body: "## How Does Blog Automation Work?\n\nBlog automation combines...",
           authorSlug: "pete",
           categorySlug: ["ai", "automation"],
-          imageUrl: "https://example.com/image.jpg",
+          image: "my-hero-image.png",
           imageAlt: "Blog automation workflow diagram",
           cta: {
             text: "Try our automation tool",
@@ -111,7 +115,7 @@ async function main() {
   console.log(`📄 Title: ${draft.title}`);
   console.log(`✍️  Author: ${draft.authorSlug || "none"}`);
   console.log(`🏷️  Categories: ${draft.categorySlug?.join(", ") || "none"}`);
-  console.log(`🖼️  Image: ${draft.imageUrl ? "provided" : draft.imagePrompt ? "will generate" : "none"}`);
+  console.log(`🖼️  Image: ${draft.image ? "provided" : draft.imagePrompt ? "will generate" : "none"}`);
   console.log("");
 
   // Build post input
@@ -149,36 +153,56 @@ async function main() {
     }
   }
 
-  // Handle image: generate from prompt or use provided URL
-  let imageUrl = draft.imageUrl;
+  // Handle image: local file, URL, or generate from prompt
+  let imageAsset: { _ref: string } | null = null;
 
-  if (!imageUrl && draft.imagePrompt) {
+  if (draft.image) {
+    // Check if it's a URL or a local filename
+    const isUrl = draft.image.startsWith("http://") || draft.image.startsWith("https://");
+
+    if (isUrl) {
+      // Upload from URL
+      console.log(`🖼️  Uploading image from URL...`);
+      try {
+        imageAsset = await uploadImageFromUrl(draft.image, `hero-${Date.now()}.webp`);
+        console.log(`   ✓ Image uploaded`);
+      } catch (err) {
+        console.log(`   ⚠️  Image upload failed: ${err}`);
+      }
+    } else {
+      // Local file from assets/blog-images/
+      const localPath = path.join(BLOG_IMAGES_DIR, draft.image);
+      if (fs.existsSync(localPath)) {
+        console.log(`🖼️  Uploading local image: ${draft.image}`);
+        try {
+          imageAsset = await uploadImageFromFile(localPath);
+          console.log(`   ✓ Image uploaded`);
+        } catch (err) {
+          console.log(`   ⚠️  Image upload failed: ${err}`);
+        }
+      } else {
+        console.log(`   ⚠️  Local image not found: ${localPath}`);
+      }
+    }
+  } else if (draft.imagePrompt) {
     // Generate image from prompt using Flux
     console.log(`🎨 Generating image from prompt...`);
     try {
-      imageUrl = await generateBlogHeroImage(draft.imagePrompt);
+      const generatedUrl = await generateBlogHeroImage(draft.imagePrompt);
       console.log(`   ✓ Image generated`);
+      imageAsset = await uploadImageFromUrl(generatedUrl, `hero-${Date.now()}.webp`);
+      console.log(`   ✓ Image uploaded`);
     } catch (err) {
       console.log(`   ⚠️  Image generation failed: ${err}`);
     }
   }
 
-  // Upload image to Sanity
-  if (imageUrl) {
-    console.log(`🖼️  Uploading image to Sanity...`);
-    try {
-      const imageAsset = await uploadImageFromUrl(
-        imageUrl,
-        `hero-${Date.now()}.webp`
-      );
-      postInput.mainImage = {
-        asset: imageAsset,
-        alt: draft.imageAlt || draft.title,
-      };
-      console.log(`   ✓ Image uploaded`);
-    } catch (err) {
-      console.log(`   ⚠️  Image upload failed: ${err}`);
-    }
+  // Attach image to post
+  if (imageAsset) {
+    postInput.mainImage = {
+      asset: imageAsset,
+      alt: draft.imageAlt || draft.title,
+    };
   }
 
   // Create post

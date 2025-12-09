@@ -58,6 +58,31 @@ export async function uploadImageFromUrl(
 }
 
 /**
+ * Upload an image to Sanity from a local file path
+ */
+export async function uploadImageFromFile(
+  filePath: string,
+  filename?: string
+): Promise<{ _ref: string }> {
+  if (!isWriteClientConfigured()) {
+    throw new Error("Sanity write token not configured");
+  }
+
+  const fs = await import("fs");
+  const path = await import("path");
+
+  const buffer = fs.readFileSync(filePath);
+  const blob = new Blob([buffer]);
+  const finalFilename = filename || path.basename(filePath);
+
+  const asset = await writeClient.assets.upload("image", blob, {
+    filename: finalFilename,
+  });
+
+  return { _ref: asset._id };
+}
+
+/**
  * Create a new post in Sanity
  */
 export async function createPost(input: PostInput): Promise<{

@@ -11,7 +11,7 @@
   "body": "## How Does Blog Automation Work?\n\nBlog automation combines AI content processing with CMS integration to streamline your publishing workflow.\n\n### The Key Components\n\n- **Content Structuring**: AI transforms raw ideas into SEO-optimized posts\n- **Image Generation**: Tools like Replicate/Flux create custom hero images\n- **CMS Publishing**: API endpoints push content directly to your blog\n\n## Why Should You Automate?\n\nManual blog publishing is time-consuming. With automation:\n\n1. Reduce publishing time from hours to minutes\n2. Maintain consistent SEO structure across all posts\n3. Scale your content production without scaling your team\n\n## What Steps Should You Follow?\n\n1. Set up your CMS with proper schemas\n2. Create API endpoints for programmatic publishing\n3. Build AI prompts for content structuring\n4. Connect everything with workflow automation (n8n, Zapier)\n5. Add human review checkpoints",
   "authorSlug": "pete",
   "categorySlug": ["ai", "automation"],
-  "imagePrompt": "Abstract visualization of automated content pipeline, flowing data streams connecting AI brain to blog interface, blue and purple gradient, minimalist",
+  "image": "ai-automation-abstract.png",
   "imageAlt": "AI-powered blog automation workflow diagram",
   "cta": {
     "text": "Get Started with Blog Automation",
