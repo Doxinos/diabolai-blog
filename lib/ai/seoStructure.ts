@@ -1,0 +1,188 @@
+/**
+ * SEO/GEO Structuring Module
+ *
+ * Transforms raw content into AI-optimized blog structure based on:
+ * - AIclicks guidelines by Rokas Stankevicius
+ * - Featured snippet optimization
+ * - Conversational search patterns (ChatGPT, Perplexity, etc.)
+ */
+
+export interface RawContent {
+  topic: string;
+  content: string;
+  sources?: string[];
+  targetKeywords?: string[];
+}
+
+export interface StructuredPost {
+  title: string; // H1 as a question
+  excerpt: string; // For feeds and search (max 200 chars)
+  directAnswer: string; // 1-2 sentence answer (max 280 chars)
+  tldr: string[]; // Key bullet points
+  body: string; // Markdown formatted body
+  suggestedCategories: string[];
+  suggestedCta: {
+    text: string;
+    url: string;
+  };
+  imagePrompt: string; // Prompt for hero image generation
+}
+
+/**
+ * System prompt for SEO/GEO structuring
+ */
+export const SEO_STRUCTURE_PROMPT = `You are an SEO/GEO content optimization expert. Your task is to restructure blog content for maximum visibility in both traditional search engines AND AI assistants (ChatGPT, Perplexity, Claude, etc.).
+
+## Your Output Structure
+
+Transform the input content into this exact JSON structure:
+
+{
+  "title": "Question-format H1 that matches how people ask AI assistants",
+  "excerpt": "Compelling 150-200 char summary for blog feeds",
+  "directAnswer": "1-2 sentence direct answer to the main question (max 280 chars)",
+  "tldr": ["Key point 1", "Key point 2", "Key point 3", "Key point 4"],
+  "body": "Full markdown body content (see structure below)",
+  "suggestedCategories": ["category1", "category2"],
+  "suggestedCta": {
+    "text": "Action-oriented CTA text",
+    "url": "/suggested-path"
+  },
+  "imagePrompt": "Detailed prompt for generating a hero image"
+}
+
+## Body Structure Rules
+
+The body markdown MUST follow this structure:
+
+### 1. Start with H2 sections, NOT H1 (H1 is the title)
+
+### 2. Each H2 answers a variation of the main question:
+- "How does [topic] work?"
+- "Why is [topic] important?"
+- "What are the steps to [action]?"
+- "What are the benefits of [topic]?"
+
+### 3. Format for AI readability:
+- One idea per section
+- Short paragraphs (2-3 sentences max)
+- Use bullet lists for multiple points
+- Include data, statistics, or definitions that can be cited
+
+### 4. Include citable content:
+- Link to authoritative sources where relevant
+- Use specific numbers and data points
+- Provide clear definitions for key terms
+
+### 5. End with practical takeaways
+
+## Title Rules
+
+- Frame as a natural question people type into AI assistants
+- Examples:
+  - "What is the best way to [do X]?"
+  - "How do I [achieve Y]?"
+  - "Why should I [consider Z]?"
+- Avoid keyword-stuffed titles
+- Keep under 60 characters for SEO
+
+## Direct Answer Rules
+
+- Must directly answer the title question
+- 1-2 sentences only
+- Should be quotable by AI assistants
+- Max 280 characters
+
+## TL;DR Rules
+
+- 3-5 bullet points
+- Each point is a complete, standalone insight
+- Skimmable and quotable
+- Cover the main takeaways
+
+## Image Prompt Rules
+
+Create a prompt that:
+- Describes a conceptual/abstract visual representing the topic
+- Avoids text in images
+- Uses professional, modern aesthetic
+- Works as a blog hero image (landscape format)
+- Mentions style: "professional blog header, modern, clean design"
+
+Respond ONLY with the JSON object, no additional text.`;
+
+/**
+ * Validate the structured post output
+ */
+export function validateStructuredPost(post: unknown): post is StructuredPost {
+  if (!post || typeof post !== "object") return false;
+
+  const p = post as Record<string, unknown>;
+
+  return (
+    typeof p.title === "string" &&
+    p.title.length > 0 &&
+    p.title.length <= 100 &&
+    typeof p.excerpt === "string" &&
+    p.excerpt.length > 0 &&
+    p.excerpt.length <= 200 &&
+    typeof p.directAnswer === "string" &&
+    p.directAnswer.length > 0 &&
+    p.directAnswer.length <= 280 &&
+    Array.isArray(p.tldr) &&
+    p.tldr.length >= 3 &&
+    p.tldr.every((item) => typeof item === "string") &&
+    typeof p.body === "string" &&
+    p.body.length > 0 &&
+    Array.isArray(p.suggestedCategories) &&
+    typeof p.suggestedCta === "object" &&
+    p.suggestedCta !== null &&
+    typeof (p.suggestedCta as Record<string, unknown>).text === "string" &&
+    typeof p.imagePrompt === "string"
+  );
+}
+
+/**
+ * Parse the AI response into a structured post
+ */
+export function parseStructuredPost(response: string): StructuredPost {
+  // Try to extract JSON from the response
+  let jsonStr = response.trim();
+
+  // Handle markdown code blocks
+  if (jsonStr.startsWith("```json")) {
+    jsonStr = jsonStr.slice(7);
+  } else if (jsonStr.startsWith("```")) {
+    jsonStr = jsonStr.slice(3);
+  }
+  if (jsonStr.endsWith("```")) {
+    jsonStr = jsonStr.slice(0, -3);
+  }
+
+  jsonStr = jsonStr.trim();
+
+  const parsed = JSON.parse(jsonStr);
+
+  if (!validateStructuredPost(parsed)) {
+    throw new Error("Invalid structured post format");
+  }
+
+  return parsed;
+}
+
+/**
+ * Build the user prompt for structuring content
+ */
+export function buildStructuringPrompt(input: RawContent): string {
+  let prompt = `## Topic\n${input.topic}\n\n## Content\n${input.content}`;
+
+  if (input.sources && input.sources.length > 0) {
+    prompt += `\n\n## Sources to Reference\n${input.sources.map((s) => `- ${s}`).join("\n")}`;
+  }
+
+  if (input.targetKeywords && input.targetKeywords.length > 0) {
+    prompt += `\n\n## Target Keywords (incorporate naturally)\n${input.targetKeywords.join(", ")}`;
+  }
+
+  return prompt;
+}

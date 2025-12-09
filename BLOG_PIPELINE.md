@@ -88,15 +88,41 @@ The post schema includes these SEO/GEO optimized fields:
 Using **Replicate** with **Flux** model for hero images.
 
 ### Setup
+1. Get API token from [replicate.com/account/api-tokens](https://replicate.com/account/api-tokens)
+2. Add to `.env.local`:
+   ```
+   REPLICATE_API_TOKEN=r8_xxxxx
+   ```
+3. Add same token to Vercel environment variables
+
+### Usage
+
+In your `draft-post.json`, use `imagePrompt` instead of `imageUrl`:
+
+```json
+{
+  "imagePrompt": "Abstract visualization of AI automation, flowing data streams, blue gradient, minimalist",
+  "imageAlt": "AI automation workflow"
+}
+```
+
+The publish script will:
+1. Generate image using Flux Schnell (~$0.003/image)
+2. Upload to Sanity
+3. Attach to blog post
+
+### Available Models
+
+| Model | Cost | Speed | Quality |
+|-------|------|-------|---------|
+| `schnell` | ~$0.003 | Fast | Good (default) |
+| `dev` | ~$0.025 | Medium | Better |
+| `pro` | ~$0.055 | Slower | Best |
+
+### Custom LoRA (Optional - for brand consistency)
 1. Train a LoRA on Replicate with 10-20 brand style images (~$2, <2 min)
 2. Use trigger word in prompts (e.g., "diabolai-style")
-3. Generate via API
-
-### Training Requirements
-- 10-20 high-quality images representing brand style
-- Minimum 1024x1024px resolution
-- Various angles, lighting, contexts
-- No compression artifacts
+3. Update `lib/ai/generateImage.ts` with your LoRA model ID
 
 ---
 
@@ -223,15 +249,146 @@ In your n8n workflow, add an **HTTP Request** node:
 
 ---
 
+## Current Status (Updated Nov 28, 2025)
+
+### ✅ COMPLETED
+
+1. **Sanity Write Client** - `lib/sanity/writeClient.ts`
+2. **Markdown to Blocks Converter** - `lib/sanity/markdownToBlocks.ts`
+3. **Publish Post Functions** - `lib/sanity/publishPost.ts`
+4. **API Endpoint** - `app/api/publish/route.ts`
+5. **n8n Workflow - Direct Publish** (ID: `TYWunxlu3jC0Uev1`)
+   - Webhook URL: `https://diabol.app.n8n.cloud/webhook/publish-blog`
+   - Status: **Active**
+6. **Vercel Deployment** - Environment variables configured
+   - `SANITY_WRITE_TOKEN` ✓
+   - `PUBLISH_API_SECRET` ✓
+7. **End-to-end Test** - Successfully published test post via n8n webhook
+8. **Airtable Integration** - Human-in-the-loop review system
+   - Base: Content Ideas (`appnsjbSYxfSW0Lpw`)
+   - Table: Content Ideas (`tbl8ZoVcbSoNt80WS`)
+   - Fields: Title, Description, Status, Why, Hook, Storyline, Author, Category, Published URL, Publish button
+9. **n8n Workflow - Airtable Button Publisher** (ID: `0RJIeqLRSG9JvzQy`)
+   - Webhook URL: `https://diabol.app.n8n.cloud/webhook/publish-from-airtable`
+   - Method: GET (for Airtable button URLs)
+   - Status: **Active**
+10. **Full Pipeline Test** - Successfully published from Airtable button click
+
+---
+
+## MCP Servers Configured
+
+### Global (all projects) - `~/.claude/settings.json`
+- **Airtable**: `@jordanhuffman/airtable-mcp-server` - for database operations
+
+### Project-level - in `.claude.json` under this project
+- **n8n**: `@leonardsellem/n8n-mcp-server` - for workflow automation
+
+---
+
+## Airtable Content Ideas Table
+
+| Field | Type | Maps To |
+|-------|------|---------|
+| Title | Single line text | `title` |
+| Description | Long text | `excerpt`, `directAnswer` |
+| Why | Long text | `tldr` |
+| Hook | Long text | Body intro |
+| Storyline | Long text | Body content |
+| Author | Single line text | `authorSlug` |
+| Category | Single line text | `categorySlug` |
+| Status | Single select | Draft / Ready To Publish / Done |
+| Published URL | URL | Auto-filled after publish |
+| Publish | Button | Triggers n8n webhook |
+
+### Airtable Button Formula
+```
+"https://diabol.app.n8n.cloud/webhook/publish-from-airtable?id=" & RECORD_ID()
+```
+
+---
+
+## Architecture Diagram
+
+```
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                           BLOG PUBLISHING PIPELINE                               │
+└─────────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────┐     ┌──────────────┐     ┌──────────────┐     ┌──────────────┐
+│    n8n       │     │   Airtable   │     │    n8n       │     │    Blog      │
+│   Daily      │ ──▶ │   Content    │ ──▶ │   Button     │ ──▶ │   Sanity     │
+│   Content    │     │   Ideas      │     │   Publisher  │     │   CMS        │
+│   Report     │     │   (Review)   │     │   Workflow   │     │              │
+└──────────────┘     └──────────────┘     └──────────────┘     └──────────────┘
+                            │                    │
+                     Human reviews         GET webhook
+                     Clicks "Publish"      fetches record,
+                     button               publishes, updates status
+
+Button Webhook: https://diabol.app.n8n.cloud/webhook/publish-from-airtable
+Blog API:       https://blog.diabolai.com/api/publish
+```
+
+---
+
+## Environment Variables
+
+### Vercel (Production) - Already Configured ✓
+| Variable | Status |
+|----------|--------|
+| `SANITY_WRITE_TOKEN` | ✓ Set |
+| `PUBLISH_API_SECRET` | ✓ Set |
+
+### n8n Workflow - Hardcoded (n8n Cloud doesn't support env vars on non-Enterprise)
+- Blog URL: `https://blog.diabolai.com/api/publish`
+- API Secret: Hardcoded in workflow
+- Airtable PAT: Hardcoded in workflow
+
+---
+
+## CLI Publishing (for Cursor/Claude Code)
+
+For generating blog posts with AI co-pilot in Cursor or Claude Code:
+
+### Usage
+
+1. Create your draft in `scripts/draft-post.json` (see `draft-post.example.json` for structure)
+2. Run `pnpm publish` to publish to Sanity
+
+### Draft Structure
+
+```json
+{
+  "title": "What is the best way to automate blog posts?",
+  "excerpt": "Learn how to automate your blog publishing workflow with AI.",
+  "directAnswer": "The best way is using an AI pipeline...",
+  "tldr": ["Point 1", "Point 2", "Point 3"],
+  "body": "## How Does It Work?\n\nMarkdown content here...",
+  "authorSlug": "pete",
+  "categorySlug": ["ai", "automation"],
+  "imageUrl": "https://example.com/image.jpg",
+  "imageAlt": "Description of image",
+  "cta": { "text": "Get Started", "url": "/contact" },
+  "featured": false
+}
+```
+
+### SEO/GEO Prompt
+
+Use the prompt from `lib/ai/seoStructure.ts` when generating content:
+- Title: Question format (how people ask AI assistants)
+- Direct answer: 1-2 sentences, max 280 chars
+- TL;DR: 3-5 bullet points
+- Body: H2/H3 sections, one idea per section
+
+---
+
 ## Next Steps
 
-1. [ ] Get Sanity write token and add to `.env.local`
-2. [ ] Generate PUBLISH_API_SECRET and add to `.env.local`
-3. [ ] Get Replicate API token
-4. [ ] Train Flux LoRA with brand images on Replicate
-5. [x] Build Sanity write client
-6. [x] Build markdown → Sanity block converter
-7. [x] Build SEO/GEO structuring module
-8. [x] Create API endpoint for n8n integration
-9. [ ] Connect n8n workflow to publish endpoint
-10. [ ] Test full pipeline
+1. [x] ~~Set up Airtable integration~~
+2. [x] ~~Test full pipeline: Airtable → n8n → Sanity → Blog~~
+3. [x] ~~CLI publish script for Cursor/Claude Code~~
+4. [x] ~~Add Flux image generation to publish script~~
+5. [ ] Add Replicate API token to `.env.local`
+6. [ ] (Optional) Train Flux LoRA with brand images on Replicate
