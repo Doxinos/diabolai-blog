@@ -50,8 +50,6 @@ export default function PostList({
         <div className="mt-4">
           <div className="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
             <CategoryLabel categories={post.categories} />
-            {post.author && <span>·</span>}
-            {post.author && <span>{post.author.name}</span>}
           </div>
           <h2 className="mt-2 text-xl font-normal leading-snug tracking-wider text-gray-800 dark:text-gray-100">
             <Link
