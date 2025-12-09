@@ -97,8 +97,8 @@ export default function Post(props) {
         <article className="mx-auto max-w-screen-md ">
           {/* Direct Answer for AI/SEO */}
           {post.directAnswer && (
-            <div className="mb-8 rounded-lg bg-blue-50 p-6 dark:bg-blue-900/20">
-              <p className="text-lg font-medium text-gray-800 dark:text-gray-200">
+            <div className="prose prose-lg mb-6 dark:prose-invert">
+              <p className="text-gray-700 dark:text-gray-300 italic">
                 {post.directAnswer}
               </p>
             </div>
@@ -106,11 +106,11 @@ export default function Post(props) {
 
           {/* TL;DR Section */}
           {post.tldr && post.tldr.length > 0 && (
-            <div className="mb-8 rounded-lg bg-gray-100 p-6 dark:bg-gray-800">
-              <h2 className="mb-4 text-lg font-bold text-gray-900 dark:text-white">
+            <div className="prose prose-lg mb-6 dark:prose-invert">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white">
                 TL;DR
               </h2>
-              <ul className="list-disc space-y-2 pl-5">
+              <ul className="list-disc space-y-1 pl-5">
                 {post.tldr.map((item, index) => (
                   <li key={index} className="text-gray-700 dark:text-gray-300">
                     {item}
