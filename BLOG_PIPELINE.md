@@ -83,11 +83,63 @@ The post schema includes these SEO/GEO optimized fields:
 
 ---
 
-## Image Generation
+## Blog Images
+
+### Option 1: Local Images (Recommended)
+
+22 pre-generated AI images are stored in `assets/blog-images/`. To use one:
+
+```json
+{
+  "image": "ai-abstract-scene-glowing-lightbulb-dark-night.jpg",
+  "imageAlt": "Glowing lightbulb representing AI innovation"
+}
+```
+
+**Available images:**
+```
+ai-3d-car-emerging-holographic-wireframe.jpg
+ai-abstract-audio-wave-flowing.jpg
+ai-abstract-digital-artwork-inspired-siren-melthea.jpg
+ai-abstract-face-paint-details.jpg
+ai-abstract-scene-glowing-lightbulb-dark-night.jpg
+ai-animated-cinematic-poster-bear-old-man.jpg
+ai-ascii-style-art-barista-coffee.jpg
+ai-astronaut-woman-futuristic-suit.jpg
+ai-campfire-colorful-flames-glowing.jpg
+ai-close-up-black-panther.jpg
+ai-dark-medallion-head-of-dragon.jpg
+ai-f1-inspired-track-at-night.jpg
+ai-macro-shot-mosquito-flying-mid-air.jpg
+ai-minimalist-apple-mac-workspace.jpg
+ai-nervous-system-black-background-artistic.jpg
+ai-realistic-digital-art-black-woman-dollar-bills.jpg
+ai-retro-futuristic-sci-fi-bedroom-interior.jpg
+ai-santa-klaus-gifts-futuristik.jpg
+ai-throne-red-poker-cards-flying.jpg
+ai-turntable-needle-song.jpg
+ai-woman-robot-futuristic.jpg
+ai-wooden-surfboard-carved-and-painted-hawaiian.jpg
+```
+
+**Tracking used images:** The script automatically updates `assets/blog-images/used-images.json` when an image is used. If you manually add an image in Sanity Studio, add the filename to this file to prevent reuse.
+
+### Option 2: External URL
+
+Provide a full URL to any image:
+
+```json
+{
+  "image": "https://example.com/my-image.jpg",
+  "imageAlt": "Description of the image"
+}
+```
+
+### Option 3: AI-Generated (Replicate/Flux)
 
 Using **Replicate** with **Flux** model for hero images.
 
-### Setup
+#### Setup
 1. Get API token from [replicate.com/account/api-tokens](https://replicate.com/account/api-tokens)
 2. Add to `.env.local`:
    ```
@@ -95,9 +147,9 @@ Using **Replicate** with **Flux** model for hero images.
    ```
 3. Add same token to Vercel environment variables
 
-### Usage
+#### Usage
 
-In your `draft-post.json`, use `imagePrompt` instead of `imageUrl`:
+In your `draft-post.json`, use `imagePrompt` instead of `image`:
 
 ```json
 {
