@@ -6,6 +6,9 @@ import { getSettings } from "@/lib/sanity/client";
 import Footer from "@/components/footer";
 import GetNavbar from "@/components/getnavbar";
 import { urlForImage } from "@/lib/sanity/image";
+import Script from "next/script";
+
+const GA_MEASUREMENT_ID = "G-WLJQP76D6X";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -77,6 +80,20 @@ export default async function Layout({
       lang="en"
       suppressHydrationWarning
       className={cx(poppins.variable, roboto.variable)}>
+      <head>
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GA_MEASUREMENT_ID}');
+          `}
+        </Script>
+      </head>
       <body className="text-gray-800 antialiased dark:bg-dark-background dark:text-gray-400">
         <Providers>
           <GetNavbar {...settings} />
