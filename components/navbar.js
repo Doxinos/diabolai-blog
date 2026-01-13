@@ -28,8 +28,8 @@ export default function Navbar() {
           ? "bg-white/50 dark:bg-dark-background/50 backdrop-blur-md"
           : "bg-transparent"
       )}>
-      <Container>
-        <nav className="flex items-center justify-between py-4">
+      <Container className="max-w-md">
+        <nav className="flex items-center justify-between py-3">
           <div>
             <Link href="/">
               <Image

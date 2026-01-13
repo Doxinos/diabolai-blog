@@ -1,33 +1,33 @@
 "use client";
 
 import { useTheme } from "next-themes";
-import { SunIcon } from "@heroicons/react/24/outline";
+import { useEffect, useState } from "react";
+import { SunIcon, MoonIcon } from "@heroicons/react/24/outline";
 
 const ThemeSwitch = () => {
-  //   const [mounted, setMounted] = useState(false);
-  //   const { resolvedTheme, setTheme } = useTheme();
-  const { theme, setTheme } = useTheme();
-  // useEffect only runs on the client, so now we can safely show the UI
-  //   useEffect(() => {
-  //     setMounted(true);
-  //   }, []);
+  const [mounted, setMounted] = useState(false);
+  const { resolvedTheme, setTheme } = useTheme();
 
-  //   if (!mounted) {
-  //     return null;
-  //   }
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return <div className="w-9 h-9" />; // Placeholder to prevent layout shift
+  }
 
   return (
-    <div className="inline-flex items-center">
-      <SunIcon className="w-4 h-4 mr-2" />
-      <select
-        name="themeSwitch"
-        value={theme}
-        onChange={e => setTheme(e.target.value)}>
-        <option value="system">System</option>
-        <option value="dark">Dark</option>
-        <option value="light">Light</option>
-      </select>
-    </div>
+    <button
+      onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+      className="p-2 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-800 transition-colors"
+      aria-label={`Switch to ${resolvedTheme === "dark" ? "light" : "dark"} mode`}
+    >
+      {resolvedTheme === "dark" ? (
+        <SunIcon className="w-5 h-5" />
+      ) : (
+        <MoonIcon className="w-5 h-5" />
+      )}
+    </button>
   );
 };
 
