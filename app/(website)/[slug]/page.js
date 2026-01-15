@@ -15,15 +15,16 @@ export async function generateMetadata({ params }) {
   };
 }
 
-function generateJsonLd(post) {
+function generateJsonLd(post, slug) {
   const imageUrl = post?.mainImage ? urlForImage(post.mainImage)?.src : null;
+  const postSlug = post?.slug?.current || slug;
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": "Article",
-        "@id": `https://blog.diabolai.com/${post.slug.current}#article`,
+        "@id": `https://blog.diabolai.com/${postSlug}#article`,
         "headline": post.title,
         "description": post.excerpt || post.directAnswer || "",
         "datePublished": post.publishedAt || post._createdAt,
@@ -55,7 +56,7 @@ function generateJsonLd(post) {
         }),
         "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": `https://blog.diabolai.com/${post.slug.current}`
+          "@id": `https://blog.diabolai.com/${postSlug}`
         }
       }
     ]
@@ -71,7 +72,7 @@ export default async function BlogPostPage({ params }) {
     notFound();
   }
 
-  const jsonLd = generateJsonLd(post);
+  const jsonLd = generateJsonLd(post, params.slug);
 
   return (
     <>
