@@ -162,7 +162,7 @@ export async function POST(request: NextRequest) {
       success: true,
       postId: result._id,
       slug: result.slug,
-      url: `/post/${result.slug}`,
+      url: `https://blog.diabolai.com/${result.slug}`,
     });
   } catch (error) {
     console.error("Failed to publish post:", error);
