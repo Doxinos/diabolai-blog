@@ -1,70 +1,65 @@
 import { NextRequest, NextResponse } from "next/server";
 import { writeClient, isWriteClientConfigured } from "@/lib/sanity/writeClient";
-import fs from "fs";
-import path from "path";
 
-const IMAGES_DIR = path.join(process.cwd(), "assets/blog-images");
-const USED_IMAGES_FILE = path.join(IMAGES_DIR, "used-images.json");
+// List of all available stock images (pre-generated Midjourney images)
+// These must match the actual filenames in public/blog-images/
+const ALL_STOCK_IMAGES = [
+  "ai-3d-car-emerging-holographic-wireframe.jpg",
+  "ai-abstract-audio-wave-flowing.jpg",
+  "ai-abstract-digital-artwork-inspired-siren-melthea.jpg",
+  "ai-abstract-face-paint-details.jpg",
+  "ai-abstract-scene-glowing-lightbulb-dark-night.jpg",
+  "ai-animated-cinematic-poster-bear-old-man.jpg",
+  "ai-ascii-style-art-barista-coffee.jpg",
+  "ai-astronaut-woman-futuristic-suit.jpg",
+  "ai-campfire-colorful-flames-glowing.jpg",
+  "ai-close-up-black-panther.jpg",
+  "ai-dark-medallion-head-of-dragon.jpg",
+  "ai-f1-inspired-track-at-night.jpg",
+  "ai-macro-shot-mosquito-flying-mid-air.jpg",
+  "ai-minimalist-apple-mac-workspace.jpg",
+  "ai-nervous-system-black-background-artistic.jpg",
+  "ai-realistic-digital-art-black-woman-dollar-bills.jpg",
+  "ai-retro-futuristic-sci-fi-bedroom-interior.jpg",
+  "ai-santa-klaus-gifts-futuristik.jpg",
+  "ai-throne-red-poker-cards-flying.jpg",
+  "ai-turntable-needle-song.jpg",
+  "ai-woman-robot-futuristic.jpg",
+  "ai-wooden-surfboard-carved-and-painted-hawaiian.jpg",
+];
 
-interface UsedImagesData {
-  description: string;
-  used: string[];
+/**
+ * Get list of images already used in Sanity (by checking originalFilename)
+ */
+async function getUsedImageFilenames(): Promise<string[]> {
+  const query = `*[_type == "sanity.imageAsset" && originalFilename match "ai-*"]{originalFilename}`;
+  const assets = await writeClient.fetch(query);
+  return assets.map((a: { originalFilename: string }) => a.originalFilename);
 }
 
 /**
  * Get the list of available (unused) images
  */
-function getAvailableImages(): string[] {
-  // Read all image files
-  const allFiles = fs.readdirSync(IMAGES_DIR).filter((file) =>
-    /\.(jpg|jpeg|png|webp)$/i.test(file)
-  );
-
-  // Read used images
-  let usedImages: string[] = [];
-  try {
-    const data: UsedImagesData = JSON.parse(
-      fs.readFileSync(USED_IMAGES_FILE, "utf-8")
-    );
-    usedImages = data.used || [];
-  } catch {
-    // File doesn't exist or is invalid, assume no images used
-  }
-
-  // Return unused images
-  return allFiles.filter((file) => !usedImages.includes(file));
+async function getAvailableImages(): Promise<string[]> {
+  const usedFilenames = await getUsedImageFilenames();
+  return ALL_STOCK_IMAGES.filter((file) => !usedFilenames.includes(file));
 }
 
 /**
- * Mark an image as used
- */
-function markImageAsUsed(filename: string): void {
-  let data: UsedImagesData = {
-    description: "Tracks which images have been used in blog posts",
-    used: [],
-  };
-
-  try {
-    data = JSON.parse(fs.readFileSync(USED_IMAGES_FILE, "utf-8"));
-  } catch {
-    // File doesn't exist, use default
-  }
-
-  if (!data.used.includes(filename)) {
-    data.used.push(filename);
-    fs.writeFileSync(USED_IMAGES_FILE, JSON.stringify(data, null, 2));
-  }
-}
-
-/**
- * Upload image to Sanity and return the asset reference
+ * Upload image to Sanity from the public assets URL
  */
 async function uploadImageToSanity(
-  imagePath: string,
   filename: string
 ): Promise<{ _ref: string; url: string }> {
-  const fileBuffer = fs.readFileSync(imagePath);
-  const blob = new Blob([fileBuffer]);
+  // Fetch the image from the public assets URL
+  const imageUrl = `https://blog.diabolai.com/blog-images/${filename}`;
+
+  const response = await fetch(imageUrl);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch image: ${response.status}`);
+  }
+
+  const blob = await response.blob();
 
   const asset = await writeClient.assets.upload("image", blob, {
     filename,
@@ -115,7 +110,7 @@ export async function GET(request: NextRequest) {
   const peek = request.nextUrl.searchParams.get("peek") === "true";
 
   try {
-    const availableImages = getAvailableImages();
+    const availableImages = await getAvailableImages();
 
     if (availableImages.length === 0) {
       return NextResponse.json(
@@ -130,7 +125,6 @@ export async function GET(request: NextRequest) {
 
     // Pick the first available image (could randomize if preferred)
     const nextImage = availableImages[0];
-    const imagePath = path.join(IMAGES_DIR, nextImage);
 
     if (peek) {
       // Just return info without uploading
@@ -153,11 +147,8 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Upload to Sanity
-    const { _ref, url } = await uploadImageToSanity(imagePath, nextImage);
-
-    // Mark as used
-    markImageAsUsed(nextImage);
+    // Upload to Sanity (this also marks it as "used" since it's now in Sanity)
+    const { _ref, url } = await uploadImageToSanity(nextImage);
 
     return NextResponse.json({
       success: true,
@@ -217,7 +208,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json().catch(() => ({}));
     const requestedFilename = body.filename as string | undefined;
 
-    const availableImages = getAvailableImages();
+    const availableImages = await getAvailableImages();
 
     if (availableImages.length === 0) {
       return NextResponse.json(
@@ -247,13 +238,8 @@ export async function POST(request: NextRequest) {
       selectedImage = availableImages[0];
     }
 
-    const imagePath = path.join(IMAGES_DIR, selectedImage);
-
-    // Upload to Sanity
-    const { _ref, url } = await uploadImageToSanity(imagePath, selectedImage);
-
-    // Mark as used
-    markImageAsUsed(selectedImage);
+    // Upload to Sanity (this also marks it as "used" since it's now in Sanity)
+    const { _ref, url } = await uploadImageToSanity(selectedImage);
 
     return NextResponse.json({
       success: true,
