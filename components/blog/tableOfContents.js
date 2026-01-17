@@ -87,8 +87,7 @@ export default function TableOfContents({ body, tldr, title }) {
   }
 
   return (
-    <div className="sticky top-40">
-      <nav className="rounded-2xl border border-gray-200 dark:border-gray-700 p-5">
+    <nav className="rounded-2xl border border-gray-200 dark:border-gray-700 p-5 max-h-[calc(100vh-8rem)] overflow-y-auto">
           {/* TL;DR link if present */}
           {tldr && tldr.length > 0 && (
             <a
@@ -121,7 +120,6 @@ export default function TableOfContents({ body, tldr, title }) {
               {heading.text}
             </a>
           ))}
-      </nav>
-    </div>
+    </nav>
   );
 }

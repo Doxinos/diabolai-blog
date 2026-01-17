@@ -185,8 +185,10 @@ export default function Post(props) {
             </article>
 
             {/* Table of Contents sidebar */}
-            <aside className="hidden w-64 flex-shrink-0 self-start lg:block">
-              <TableOfContents body={post.body} tldr={post.tldr} />
+            <aside className="hidden w-64 flex-shrink-0 lg:block">
+              <div className="sticky top-24">
+                <TableOfContents body={post.body} tldr={post.tldr} />
+              </div>
             </aside>
           </div>
         </div>
