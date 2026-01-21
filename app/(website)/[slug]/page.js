@@ -8,7 +8,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }) {
-  const post = await getPostBySlug(params.slug);
+  const { slug } = await params;
+  const post = await getPostBySlug(slug);
   return {
     title: post?.title || "Blog Post",
     description: post?.excerpt || post?.metaDescription
@@ -66,13 +67,14 @@ function generateJsonLd(post, slug) {
 }
 
 export default async function BlogPostPage({ params }) {
-  const post = await getPostBySlug(params.slug);
+  const { slug } = await params;
+  const post = await getPostBySlug(slug);
 
   if (!post) {
     notFound();
   }
 
-  const jsonLd = generateJsonLd(post, params.slug);
+  const jsonLd = generateJsonLd(post, slug);
 
   return (
     <>

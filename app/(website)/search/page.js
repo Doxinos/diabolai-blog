@@ -6,7 +6,8 @@ import Container from "@/components/container";
 import Loading from "@/components/loading";
 
 export default async function SearchPage({ searchParams }) {
-  const query = searchParams.q;
+  const resolvedParams = await searchParams;
+  const query = resolvedParams.q;
   return (
     <>
       <div>
@@ -16,12 +17,14 @@ export default async function SearchPage({ searchParams }) {
           </h1>
         </div>
 
-        <Input query={query} />
+        <Suspense fallback={<Loading />}>
+          <Input query={query} />
+        </Suspense>
       </div>
 
       <Container>
-        <Suspense key={searchParams.search} fallback={<Loading />}>
-          <Search searchParams={searchParams} />
+        <Suspense key={resolvedParams.search} fallback={<Loading />}>
+          <Search searchParams={resolvedParams} />
         </Suspense>
       </Container>
     </>

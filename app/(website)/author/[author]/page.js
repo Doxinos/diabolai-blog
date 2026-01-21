@@ -12,14 +12,16 @@ async function getAuthor(slug) {
 }
 
 export async function generateMetadata({ params }) {
-  const author = await getAuthor(params.author);
-  return { title: author.title };
+  const { author } = await params;
+  const authorData = await getAuthor(author);
+  return { title: authorData.title };
 }
 
 export default async function AuthorPage({ params }) {
-  const posts = await getAuthorPostsBySlug(params.author);
-  const author = await getAuthor(params.author);
-  return <Author posts={posts} author={author} />;
+  const { author } = await params;
+  const posts = await getAuthorPostsBySlug(author);
+  const authorData = await getAuthor(author);
+  return <Author posts={posts} author={authorData} />;
 }
 
 // export const revalidate = 60;

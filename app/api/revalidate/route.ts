@@ -23,48 +23,46 @@
  * 17. Redeploy with `npx vercel --prod` to apply the new environment variable
  */
 
-import type { NextApiRequest, NextApiResponse } from "next";
+import { revalidatePath } from "next/cache";
+import { NextRequest, NextResponse } from "next/server";
 import { parseBody } from "next-sanity/webhook";
-import { SanityDocument } from "@sanity/types";
-export { config } from "next-sanity/webhook";
 
-export default async function revalidate(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+interface SanityWebhookBody {
+  _id: string;
+  _type: string;
+  slug?: { current: string };
+}
+
+export async function POST(req: NextRequest) {
   try {
-    const { body, isValidSignature } = await parseBody(
+    const { body, isValidSignature } = await parseBody<SanityWebhookBody>(
       req,
       process.env.SANITY_REVALIDATE_SECRET
     );
+
     if (isValidSignature === false) {
       const message = "Invalid signature";
       console.log(message);
-      return res.status(401).send(message);
-    }
-    const sanityBody = body as SanityDocument & {
-      slug: { current: string };
-    };
-
-    if (
-      typeof sanityBody.slug.current !== "string" ||
-      !sanityBody.slug.current
-    ) {
-      const invalidSlug = "Invalid slug";
-      console.error(invalidSlug, { sanityBody });
-      return res.status(400).send(invalidSlug);
+      return NextResponse.json({ message }, { status: 401 });
     }
 
-    const staleRoutes = [`/${sanityBody.slug.current}`, "/"];
-    await Promise.all(
-      staleRoutes.map(route => res.revalidate(route))
-    );
+    if (!body?.slug?.current) {
+      const message = "Invalid slug";
+      console.error(message, { body });
+      return NextResponse.json({ message }, { status: 400 });
+    }
 
-    const updatedRoutes = `Updated routes: ${staleRoutes.join(", ")}`;
-    console.log(updatedRoutes);
-    return res.status(200).send(updatedRoutes);
-  } catch (err: any) {
+    const staleRoutes = [`/${body.slug.current}`, "/"];
+    staleRoutes.forEach((route) => {
+      revalidatePath(route);
+    });
+
+    const message = `Updated routes: ${staleRoutes.join(", ")}`;
+    console.log(message);
+    return NextResponse.json({ message, revalidated: true });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : "Unknown error";
     console.error(err);
-    return res.status(500).send(err.message);
+    return NextResponse.json({ message }, { status: 500 });
   }
 }

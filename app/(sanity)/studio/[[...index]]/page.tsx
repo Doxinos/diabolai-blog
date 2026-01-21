@@ -8,11 +8,21 @@
  */
 
 import Studio from './studio'
+import type { Metadata, Viewport } from 'next'
 
 export const dynamic = 'force-static'
 
-export { metadata } from 'next-sanity/studio/metadata'
-export { viewport } from 'next-sanity/studio/viewport'
+export const metadata: Metadata = {
+  title: 'Sanity Studio',
+  description: 'Content management for Diabol AI Blog',
+  robots: 'noindex, nofollow',
+}
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+}
 
 export default function StudioPage() {
   return <Studio />
