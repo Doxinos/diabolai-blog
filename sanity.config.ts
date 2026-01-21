@@ -15,6 +15,7 @@ import {
 import { unsplashImageAsset } from "sanity-plugin-asset-source-unsplash";
 import { table } from "@sanity/table";
 import { codeInput } from "@sanity/code-input";
+import { media } from "sanity-plugin-media";
 
 export const PREVIEWABLE_DOCUMENT_TYPES: string[] = ["post"];
 
@@ -35,7 +36,8 @@ export default defineConfig({
     visionTool(),
     unsplashImageAsset(),
     table(),
-    codeInput()
+    codeInput(),
+    media()
   ],
 
   schema: {
