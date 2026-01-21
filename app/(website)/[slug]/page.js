@@ -10,9 +10,35 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   const post = await getPostBySlug(slug);
+
+  const imageUrl = post?.mainImage ? urlForImage(post.mainImage)?.src : null;
+
   return {
     title: post?.title || "Blog Post",
-    description: post?.excerpt || post?.metaDescription
+    description: post?.excerpt || post?.metaDescription,
+    openGraph: {
+      title: post?.title,
+      description: post?.excerpt || post?.directAnswer,
+      type: "article",
+      publishedTime: post?.publishedAt || post?._createdAt,
+      authors: post?.author?.name ? [post.author.name] : ["Diabol AI"],
+      ...(imageUrl && {
+        images: [
+          {
+            url: imageUrl,
+            width: 1200,
+            height: 630,
+            alt: post?.title,
+          },
+        ],
+      }),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post?.title,
+      description: post?.excerpt || post?.directAnswer,
+      ...(imageUrl && { images: [imageUrl] }),
+    },
   };
 }
 
