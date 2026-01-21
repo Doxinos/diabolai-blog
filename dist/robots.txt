@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://diabol-blog-8pxvivd45-peter-ferms-projects.vercel.app
+
+# Sitemaps
+Sitemap: https://diabol-blog-8pxvivd45-peter-ferms-projects.vercel.app/sitemap.xml

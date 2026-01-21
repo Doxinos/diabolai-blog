@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 // Helper to generate slug from text
 function slugify(text) {
@@ -39,6 +39,17 @@ export function extractHeadings(body) {
 export default function TableOfContents({ body, tldr, title }) {
   const [activeId, setActiveId] = useState("");
   const headings = extractHeadings(body);
+  const navRef = useRef(null);
+
+  // Scroll active TOC item into view within the nav
+  useEffect(() => {
+    if (activeId && navRef.current) {
+      const activeLink = navRef.current.querySelector(`a[href="#${activeId}"]`);
+      if (activeLink) {
+        activeLink.scrollIntoView({ block: "nearest", behavior: "smooth" });
+      }
+    }
+  }, [activeId]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -87,7 +98,7 @@ export default function TableOfContents({ body, tldr, title }) {
   }
 
   return (
-    <nav className="rounded-2xl border border-gray-200 dark:border-gray-700 p-5 max-h-[calc(100vh-8rem)] overflow-y-auto">
+    <nav ref={navRef} className="rounded-2xl border border-gray-200 dark:border-gray-700 p-5 max-h-[calc(100vh-8rem)] overflow-y-auto">
           {/* TL;DR link if present */}
           {tldr && tldr.length > 0 && (
             <a

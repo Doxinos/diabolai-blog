@@ -140,9 +140,9 @@ export default function Post(props) {
 
       <Container>
         <div className="mx-auto max-w-screen-xl">
-          <div className="flex gap-10 lg:gap-16">
+          <div className="relative lg:grid lg:grid-cols-[1fr_256px] lg:gap-16">
             {/* Main article content */}
-            <article className="min-w-0 max-w-screen-md flex-1">
+            <article className="min-w-0 max-w-screen-md">
               {/* Direct Answer for AI/SEO */}
               {post.directAnswer && (
                 <div className="prose mb-6 dark:prose-invert">
@@ -184,8 +184,8 @@ export default function Post(props) {
               )}
             </article>
 
-            {/* Table of Contents sidebar */}
-            <aside className="hidden w-64 flex-shrink-0 lg:block">
+            {/* Table of Contents sidebar - grid ensures aside spans full row height */}
+            <aside className="hidden lg:block">
               <div className="sticky top-24">
                 <TableOfContents body={post.body} tldr={post.tldr} />
               </div>

@@ -2,7 +2,7 @@
 
 ## Overview
 
-Automated pipeline for publishing SEO/GEO-optimized blog posts to Sanity CMS.
+Automated pipeline for publishing SEO/GEO-optimized blog posts to Sanity CMS with brand voice consistency.
 
 ```
 ┌─────────────────┐    ┌─────────────────┐    ┌──────────┐    ┌─────────────────┐    ┌──────────┐    ┌─────────────┐
@@ -10,6 +10,17 @@ Automated pipeline for publishing SEO/GEO-optimized blog posts to Sanity CMS.
 │  or Claude      │    │   Structuring   │    │  REVIEW  │    │   (Replicate)   │    │  REVIEW  │    │  to Sanity  │
 └─────────────────┘    └─────────────────┘    └──────────┘    └─────────────────┘    └──────────┘    └─────────────┘
 ```
+
+## Key Documentation Files
+
+| File | Purpose |
+|------|---------|
+| `BRAND_VOICE.md` | Diabol AI voice profile - tone, vocabulary, personality traits |
+| `HUMAN_WRITING.md` | Anti-AI writing patterns to avoid (tricolons, hollow intensifiers, etc.) |
+| `CONTENT_STYLE_GUIDE.md` | Blog post structure and formatting requirements |
+| `BLOG_PIPELINE.md` | This file - technical pipeline documentation |
+
+**IMPORTANT**: AI agents generating content MUST follow all three style guides. The n8n AI Content Generator workflow includes these guidelines in its prompt.
 
 ---
 
@@ -96,14 +107,28 @@ SEPARATE WORKFLOW (LinkedIn Parasite):
 - **Output**: 5 blog ideas per topic → Airtable (Draft status)
 - **Schedule**: Daily (automated)
 
-### 2. AI Content Generator
+### 2. AI Content Generator + Slack Review (ID: `CgZ3SQhfKCEEtvDI`)
+- **Webhook URL**: `https://diabol.app.n8n.cloud/webhook/generate-content`
 - **Trigger**: "Generate Draft" button in Airtable
 - **Input**: Title, Description, Hook, Storyline from Airtable
-- **Output**: Full article with SEO structure
+- **Output**: Full article with SEO structure following brand voice
 - **Fields Populated**: Generated Title, Generated Direct Answer, Generated TL;DR, Generated Body
 - **Status Change**: Draft → Ready To Publish
+- **Notifications**: Posts draft to #blog-drafts Slack channel for review
+- **Style Guides**: Prompt includes BRAND_VOICE.md, HUMAN_WRITING.md, and CONTENT_STYLE_GUIDE.md rules
 
-### 3. Airtable Button Publisher (ID: `0RJIeqLRSG9JvzQy`)
+### 3. Bi-Weekly Blog Content Generator (ID: `bzoowtpz5Xe5y7P1`)
+- **Webhook URL**: `https://diabol.app.n8n.cloud/webhook/biweekly-blog-test` (for manual testing)
+- **Schedule**: Every other Monday at 9 AM UTC (1st and 3rd week of each month)
+- **Purpose**: Auto-select and generate one blog post every two weeks from existing Draft ideas
+- **Flow**:
+  1. Fetch all Draft ideas from Airtable
+  2. Claude selects the best topic based on relevance and timeliness
+  3. Triggers AI Content Generator webhook for the selected idea
+  4. Notifies Slack with selection reason
+- **Status**: Inactive (manual testing mode)
+
+### 4. Airtable Button Publisher (ID: `0RJIeqLRSG9JvzQy`)
 - **Webhook URL**: `https://diabol.app.n8n.cloud/webhook/publish-from-airtable`
 - **Method**: GET
 - **Trigger**: "Publish" button click in Airtable
@@ -169,6 +194,41 @@ ai-wooden-surfboard-carved-and-painted-hawaiian.jpg
 1. Add image files to `public/blog-images/`
 2. Add filenames to `ALL_STOCK_IMAGES` array in `app/api/next-image/route.ts`
 3. Commit and deploy
+
+---
+
+## Brand Voice & Writing Style
+
+### Diabol AI Voice (from BRAND_VOICE.md)
+- **Personality**: Battle-tested operator sharing practical frameworks
+- **Tone**: Direct without being cold, data-driven but tells stories
+- **Vocabulary**: Use specific numbers, "Here's what I've learned", avoid buzzwords
+- **Structure**: Short paragraphs (2-4 sentences), bold for statistics, no emojis
+
+### Anti-AI Writing Patterns (from HUMAN_WRITING.md)
+
+**NEVER USE:**
+- Tricolons: "Build. Launch. Scale."
+- Asyndetic lists: "Fast, reliable, efficient"
+- Hollow intensifiers: truly, incredibly, absolutely
+- Buzzwords: game-changing, revolutionary, seamless, empower
+
+**DO USE:**
+- Mixed sentence lengths
+- Contractions (natural speech)
+- Specific numbers instead of vague claims
+- Conjunctions to start sentences ("And that's the thing...")
+
+### Content Structure (from CONTENT_STYLE_GUIDE.md)
+1. Hook (personal story or provocative problem)
+2. Direct Answer (1-2 sentences for AI/SEO)
+3. TL;DR (3-5 bullet points)
+4. Problem Diagnosis
+5. Framework/Solution with clear methodology
+6. Evidence (data, case studies)
+7. Implementation (practical next steps)
+8. FAQs
+9. CTA (soft close)
 
 ---
 
@@ -395,17 +455,30 @@ components/blog/
 | **Image API failed on Vercel** | Filesystem is read-only | Changed to query Sanity for used images instead of JSON file |
 | **Images not accessible** | Images in `assets/` not served | Moved to `public/blog-images/` |
 
-### TOC Sidebar Bug (Pending Fix)
+### TOC Sidebar Sticky Behavior (Improved Jan 17, 2026)
 
 **Issue**: Table of contents sidebar stops being sticky partway through long articles.
 
-**Cause**: The `<aside>` element stretches to match article height, causing the sticky inner element to stop at the aside's bottom boundary.
+**Cause**: Flexbox doesn't naturally stretch columns to full row height, causing sticky to stop when the aside ends.
 
-**Fix**: Add `self-start` to aside element:
+**Fix**: Changed from flexbox to CSS Grid layout:
 ```jsx
-// In app/(website)/[slug]/default.js line 188
-<aside className="hidden w-64 flex-shrink-0 self-start lg:block">
+// In app/(website)/[slug]/default.js line 143
+<div className="relative lg:grid lg:grid-cols-[1fr_256px] lg:gap-16">
 ```
+
+Grid forces both columns to span the full row height. Note: For extremely long articles, the TOC may still stop sticking near the very end - this is acceptable behavior.
+
+### Content Validation (Fixed Jan 17, 2026)
+
+**Issue**: Empty posts were created when publish button was clicked before content was ready, wasting stock images.
+
+**Cause**: Image assignment happened BEFORE content validation in the n8n workflow.
+
+**Fix**: Added "Validate Content" node that runs BEFORE "Get Next Image" in Airtable Button Publisher workflow. Validation checks:
+- Title exists and is not "Untitled"
+- Body content exists and is at least 500 characters
+- Status is not already "Done"
 
 ---
 
@@ -466,13 +539,18 @@ If adding new authors:
 4. Body content cleanup (newlines, JSON artifacts)
 5. Vercel-compatible image tracking (Sanity queries, no filesystem)
 6. Stock images served from `public/blog-images/`
+7. Brand voice integration (BRAND_VOICE.md, HUMAN_WRITING.md)
+8. Content validation before image assignment (prevents empty posts)
+9. TOC sidebar sticky behavior fix
+10. Bi-Weekly Blog Content Generator workflow (select + generate from existing ideas)
+11. Slack notifications for content generation
 
 ### 🔄 In Progress
-1. TOC sidebar sticky fix (needs `self-start` on aside)
+1. Manual testing of Bi-Weekly Blog Content Generator before activation
 
 ### 📋 Future Improvements
 1. SEO optimization node (internal links, keyword density)
 2. Slug deduplication check
 3. Intelligent image matching (topic-based selection)
-4. Scheduled publishing support
-5. Analytics feedback loop
+4. Analytics feedback loop
+5. Image recycling for deleted/failed posts
