@@ -8,7 +8,7 @@ import AuthorCard from "@/components/blog/authorCard";
 import Sidebar from "@/components/sidebar";
 
 export default function Post(props) {
-  const { loading, post, categories } = props;
+  const { loading, post, categories, serviceCta, genericCta } = props;
 
   const slug = post?.slug;
 
@@ -149,6 +149,8 @@ export default function Post(props) {
             related={post.related.filter(
               item => item.slug.current !== slug
             )}
+            serviceCta={serviceCta}
+            genericCta={genericCta}
           />
         </aside>
       </div>

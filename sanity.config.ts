@@ -15,7 +15,7 @@ import {
 import { unsplashImageAsset } from "sanity-plugin-asset-source-unsplash";
 import { table } from "@sanity/table";
 import { codeInput } from "@sanity/code-input";
-import { media } from "sanity-plugin-media";
+// import { media } from "sanity-plugin-media";
 
 export const PREVIEWABLE_DOCUMENT_TYPES: string[] = ["post"];
 
@@ -29,15 +29,15 @@ export default defineConfig({
   plugins: [
     deskTool({
       structure: pageStructure([settings])
-      // `defaultDocumentNode` is responsible for adding a “Preview” tab to the document pane
+      // `defaultDocumentNode` is responsible for adding a "Preview" tab to the document pane
       // defaultDocumentNode: previewDocumentNode({ apiVersion, previewSecretId }),
     }),
     singletonPlugin(["settings"]),
     visionTool(),
     unsplashImageAsset(),
     table(),
-    codeInput(),
-    media()
+    codeInput()
+    // media()
   ],
 
   schema: {

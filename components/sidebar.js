@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Label from "@/components/ui/label";
 import DateTime from "@/components/ui/time";
+import SidebarCta from "@/components/sidebarCta";
 
 export default function Sidebar(props) {
   return (
@@ -16,8 +17,35 @@ export default function Sidebar(props) {
           pathPrefix={props.pathPrefix}
         />
       )}
+
+      {/* Service-specific CTA */}
+      {props.serviceCta && (
+        <div className="mt-10">
+          <SidebarCta
+            headline={props.serviceCta.headline}
+            body={props.serviceCta.body}
+            buttonText={props.serviceCta.buttonText}
+            buttonUrl={props.serviceCta.buttonUrl}
+            variant="primary"
+          />
+        </div>
+      )}
+
       {props.categories && (
         <Categories categories={props.categories} />
+      )}
+
+      {/* Generic CTA (book a call) */}
+      {props.genericCta && props.genericCta.headline && (
+        <div className="mt-10">
+          <SidebarCta
+            headline={props.genericCta.headline}
+            body={props.genericCta.body}
+            buttonText={props.genericCta.buttonText}
+            buttonUrl={props.genericCta.buttonUrl}
+            variant="secondary"
+          />
+        </div>
       )}
     </div>
   );

@@ -1,0 +1,213 @@
+# Diabol AI Blog - Claude Code Context
+
+## Project Overview
+
+This is the **Diabol AI blog** - a Next.js 16 + Sanity v5 JAMStack blog focused on AI transformation content for SMBs.
+
+- **Live site**: https://blog.diabolai.com
+- **Sanity Studio**: https://blog.diabolai.com/studio
+- **n8n instance**: https://diabol.app.n8n.cloud
+
+### Tech Stack
+- **Frontend**: Next.js 16, React 19, Tailwind CSS
+- **CMS**: Sanity v5.5.0 (headless)
+- **Automation**: n8n workflows
+- **Content DB**: Airtable (Content Ideas table)
+- **Deployment**: Vercel
+
+---
+
+## Active Projects
+
+### Blog-to-Video Pipeline (In Progress)
+**Goal**: Automatically generate video content from blog posts.
+
+**Status**: Planning phase - n8n automation work starting soon.
+
+#### Tech Stack Decisions
+| Component | Choice | Notes |
+|-----------|--------|-------|
+| Avatar | **HeyGen** | Custom avatar already created |
+| Voice | **ElevenLabs** | Peter's cloned voice |
+| Hosting | YouTube + embedded on blog | SEO benefits from embedded video |
+| Distribution | YouTube, LinkedIn, TikTok/Instagram | Multi-platform |
+
+#### Video Formats
+| Format | Length | Use Case |
+|--------|--------|----------|
+| Short-form | ~60 seconds | Social clips, hooks, TikTok/Reels |
+| Explainer | Up to 20 min | Full blog-to-video, YouTube |
+
+#### Video Style
+- **Primary**: Talking head with AI avatar (HeyGen)
+- **Enhancements**: Text on screen overlays
+- **Nice-to-have**: B-roll (TBD - explore auto-generation options)
+
+#### Planned Approach
+1. Extend post schema with video fields (videoUrl, videoStatus, videoThumbnail, videoDuration)
+2. Create script generation logic using existing post fields:
+   - `directAnswer` → Video hook/intro
+   - `tldr` → Key points/chapters
+   - `body` → Full narration content
+3. Build n8n workflow: trigger → extract content → call ElevenLabs API → call HeyGen API → store URL in Sanity
+
+#### Content-to-Script Mapping
+**Video-ready content fields already exist**:
+- `directAnswer`: 1-2 sentence hook (perfect for video intros)
+- `tldr`: Bullet points (natural script points)
+- `body`: Structured rich text with H2/H3 sections
+
+**Short-form (60s)**: Use `directAnswer` + 2-3 `tldr` points + CTA
+**Long-form (explainer)**: Full `body` content, section by section
+
+#### Open Questions
+- B-roll auto-generation approach (Pexels API? Runway? Stock footage matching?)
+- Aspect ratios: 16:9 for YouTube, 9:16 for TikTok/Reels - generate both?
+
+#### Research: LinkedIn Post Reference (Jan 2026)
+Someone automated their entire YouTube workflow with Claude Code in ~24 minutes, $25 in API fees.
+
+**Workflow ideas we could adapt:**
+
+1. **AI Thumbnail Generator**
+   - Uses MediaPipe to analyze face direction (yaw/pitch)
+   - Matches reference photos by Euclidean distance in pose space
+   - Face swaps using Gemini
+   - Key insight: face direction matters for avoiding uncanny results
+   - Generates 3 variations per run
+
+2. **Cross-Niche Outlier Finder** (for content ideas)
+   - Scrapes YouTube for high-performing videos in related niches
+   - Calculates outlier score: views ÷ channel average
+   - Fetches transcripts
+   - Generates title variants
+   - Outputs to Google Sheet
+
+3. **AI Video Editor**
+   - Removes silence gaps (0.5s threshold)
+   - Cuts mistakes via trigger words
+   - Audio enhancement + color grading
+   - Hardware acceleration (faster than Premiere)
+   - Auto-uploads to YouTube
+
+**Framework mentioned**: "Directive-orchestration-execution" - separates high-level instructions from Python scripts. Could apply this to our n8n workflows.
+
+**Takeaway**: These are Python scripts, not n8n. But the patterns are useful - especially the thumbnail approach and the outlier finder for content ideas.
+
+---
+
+## Content Pipeline (Fully Operational)
+
+```
+Airtable (Draft) → "Generate Draft" button → n8n AI Content Generator → Airtable (Ready To Publish)
+                                                    ↓
+                          "Publish" button → n8n Publisher → Sanity CMS → Live blog
+```
+
+### Key n8n Workflows
+| Workflow | ID | Purpose |
+|----------|-----|---------|
+| AI Content Generator | `CgZ3SQhfKCEEtvDI` | Generates full articles from ideas |
+| Airtable Button Publisher | `0RJIeqLRSG9JvzQy` | Publishes to Sanity with auto image |
+| Bi-Weekly Generator | `bzoowtpz5Xe5y7P1` | Auto-selects and generates posts |
+
+### API Endpoints
+- `POST /api/publish` - Publishes posts to Sanity
+- `GET /api/next-image` - Returns next available stock hero image
+- `POST /api/revalidate` - ISR cache revalidation webhook
+
+---
+
+## Key Files Reference
+
+### Schemas
+- [lib/sanity/schemas/post.js](lib/sanity/schemas/post.js) - Post document schema
+- [lib/sanity/schemas/blockContent.js](lib/sanity/schemas/blockContent.js) - Rich text schema
+- [lib/sanity/schemas/author.js](lib/sanity/schemas/author.js) - Author schema
+
+### Content Rendering
+- [lib/sanity/plugins/portabletext.js](lib/sanity/plugins/portabletext.js) - Rich text renderer (handles video embeds)
+- [lib/sanity/groq.js](lib/sanity/groq.js) - GROQ queries for fetching content
+
+### APIs
+- [app/api/publish/route.ts](app/api/publish/route.ts) - Publish endpoint
+- [app/api/next-image/route.ts](app/api/next-image/route.ts) - Auto image assignment
+
+### Style Guides (MUST READ for content generation)
+- [BRAND_VOICE.md](BRAND_VOICE.md) - Diabol AI voice profile
+- [HUMAN_WRITING.md](HUMAN_WRITING.md) - Anti-AI writing patterns
+- [CONTENT_STYLE_GUIDE.md](CONTENT_STYLE_GUIDE.md) - Blog post structure
+- [BLOG_PIPELINE.md](BLOG_PIPELINE.md) - Full pipeline documentation
+
+---
+
+## Post Schema Quick Reference
+
+```javascript
+Post {
+  title,           // H1 headline
+  slug,            // Auto-generated URL slug
+  excerpt,         // 200 char summary for feeds
+  directAnswer,    // 1-2 sentence answer (SEO/AI visibility)
+  tldr[],          // Bullet point takeaways
+  author,          // Reference to author doc
+  mainImage,       // Hero image with alt text
+  categories[],    // Category references
+  publishedAt,     // Original publish date
+  updatedAt,       // Freshness signal
+  body,            // blockContent (rich text)
+  cta,             // Call-to-action {text, url}
+  featured         // Boolean flag
+}
+```
+
+---
+
+## Airtable Structure
+
+**Base ID**: `appnsjbSYxfSW0Lpw`
+**Table**: `Content Ideas`
+
+Key fields: Title, Description, Status (Draft/Ready To Publish/Done), Hook, Storyline, Author, Category, Generated Title/Body/TL;DR/Direct Answer, Published URL
+
+---
+
+## Brand Voice Summary
+
+- **Personality**: Battle-tested operator sharing practical frameworks
+- **Tone**: Direct without being cold, data-driven but tells stories
+- **Key phrases**: "Here's what I've learned", specific numbers always
+- **AVOID**: Buzzwords (game-changing, revolutionary), hollow intensifiers (truly, incredibly), tricolons ("Build. Launch. Scale.")
+
+---
+
+## MCP Servers Configured
+
+- **Airtable**: Access to Content Ideas table
+- **Gmail**: Email integration
+- **n8n**: Workflow management at diabol.app.n8n.cloud
+
+---
+
+## Common Tasks
+
+### Add a new stock hero image
+1. Add file to `public/blog-images/`
+2. Add filename to `ALL_STOCK_IMAGES` array in `app/api/next-image/route.ts`
+
+### Add a new author
+1. Create in Sanity Studio
+2. Add slug mapping in n8n "Prepare Content" code node (e.g., `pete` → `peter-ferm`)
+
+### Debug publishing issues
+1. Check Sanity Studio for the post
+2. Verify n8n workflow execution logs
+3. Check Vercel deployment logs
+
+---
+
+## Notes
+
+- Stock images: 22 pre-generated Midjourney images in `public/blog-images/`
+- Video embeds already supported via `get-video-id` library (YouTube, Vimeo)
+- Posts support tables, code blocks, and iframe embeds in body content

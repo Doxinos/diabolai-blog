@@ -14,7 +14,9 @@ import {
   catquery,
   searchquery,
   bestToolsSlugsQuery,
-  bestToolsBySlugQuery
+  bestToolsBySlugQuery,
+  servicectaquery,
+  genericctaquery
 } from "./groq";
 import { createClient } from "next-sanity";
 
@@ -113,4 +115,13 @@ export async function getAllBestToolsSlugs() {
 
 export async function getBestToolsBySlug(slug: string) {
     return (await client.fetch(bestToolsBySlugQuery, { slug })) || null;
+}
+
+// Sidebar CTAs
+export async function getServiceCta(categoryIds: string[]) {
+    return (await client.fetch(servicectaquery, { categoryIds })) || null;
+}
+
+export async function getGenericCta() {
+    return (await client.fetch(genericctaquery)) || null;
 }
