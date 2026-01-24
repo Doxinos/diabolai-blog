@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import AuthorCard from "@/components/blog/authorCard";
 import Sidebar from "@/components/sidebar";
+import TableOfContents from "@/components/tableOfContents";
 
 export default function Post(props) {
   const { loading, post, categories, serviceCta, genericCta } = props;
@@ -103,8 +104,16 @@ export default function Post(props) {
       </div>
 
       {/* {post?.mainImage && <MainImage image={post.mainImage} />} */}
-      <div className="mx-auto mt-14 flex max-w-screen-xl flex-col gap-5 px-5 md:flex-row">
-        <article className="flex-1">
+      <div className="mx-auto mt-14 flex max-w-screen-2xl flex-col gap-5 px-5 lg:flex-row">
+        {/* Left sidebar - Table of Contents */}
+        <aside className="hidden lg:block lg:w-64 shrink-0">
+          <div className="sticky top-24">
+            <TableOfContents body={post.body} />
+          </div>
+        </aside>
+
+        {/* Main article content */}
+        <article className="flex-1 min-w-0">
           {/* Direct Answer for AI/SEO */}
           {post.directAnswer && (
             <div className="prose prose-lg mx-auto mb-6 dark:prose-invert">
@@ -142,16 +151,20 @@ export default function Post(props) {
           </div>
           {post.author && <AuthorCard author={post.author} />}
         </article>
-        <aside className="sticky top-0 w-full self-start md:w-96">
-          <Sidebar
-            categories={categories}
-            pathPrefix="sidebar"
-            related={post.related.filter(
-              item => item.slug.current !== slug
-            )}
-            serviceCta={serviceCta}
-            genericCta={genericCta}
-          />
+
+        {/* Right sidebar - CTAs */}
+        <aside className="w-full self-start lg:w-80 shrink-0">
+          <div className="sticky top-24">
+            <Sidebar
+              categories={categories}
+              pathPrefix="sidebar"
+              related={post.related.filter(
+                item => item.slug.current !== slug
+              )}
+              serviceCta={serviceCta}
+              genericCta={genericCta}
+            />
+          </div>
         </aside>
       </div>
     </>

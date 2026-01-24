@@ -480,6 +480,25 @@ Grid forces both columns to span the full row height. Note: For extremely long a
 - Body content exists and is at least 500 characters
 - Status is not already "Done"
 
+### Content Brainstorm Empty Records (Discovered Jan 23, 2026)
+
+**Issue**: Daily Content Report workflow creates Airtable records with empty Title/Description and "..." placeholder text in Why/Hook/Storyline fields.
+
+**Cause**: The "Create a record" node in n8n workflow `1VtwM7H3meLXzrgT` has hardcoded "..." values instead of referencing LLM output fields.
+
+**Affected Records**: Created Jan 22, 2026 onwards (records: `recuWKlRnbzjHdyxc`, `recLiNWg3kkszaDtI`, `rec6rpw6AZLdSjrkZ`, `reccOPa2hTaMGODHK`)
+
+**Fix**: Update "Create a record" node field mappings in n8n:
+1. Open workflow `1VtwM7H3meLXzrgT` in n8n
+2. Edit "Create a record" node
+3. Update field mappings:
+   - Why: Change from `=...` to `={{ $json.why_this_matters }}` (or actual field name from LLM output)
+   - Hook: Change from `=...` to `={{ $json.hook }}` (or actual field name)
+   - Storyline: Change from `=...` to `={{ $json.storyline }}` (or actual field name)
+4. Test with manual execution before re-enabling schedule
+
+**Status**: Pending fix in n8n
+
 ---
 
 ## Author Mapping
@@ -530,7 +549,7 @@ If adding new authors:
 
 ---
 
-## Current Status (Updated Jan 17, 2026)
+## Current Status (Updated Jan 23, 2026)
 
 ### ✅ Completed
 1. Full content pipeline: Research → Generate → Publish
@@ -544,9 +563,13 @@ If adding new authors:
 9. TOC sidebar sticky behavior fix
 10. Bi-Weekly Blog Content Generator workflow (select + generate from existing ideas)
 11. Slack notifications for content generation
+12. Sidebar CTAs (Service CTA + Generic CTA) with image support
 
 ### 🔄 In Progress
 1. Manual testing of Bi-Weekly Blog Content Generator before activation
+
+### 🐛 Known Issues
+1. **Content Brainstorm empty records** - Daily Content Report workflow creating empty Airtable records (see "Known Issues & Fixes" section for details and fix instructions)
 
 ### 📋 Future Improvements
 1. SEO optimization node (internal links, keyword density)

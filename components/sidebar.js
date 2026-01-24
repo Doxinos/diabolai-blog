@@ -26,6 +26,7 @@ export default function Sidebar(props) {
             body={props.serviceCta.body}
             buttonText={props.serviceCta.buttonText}
             buttonUrl={props.serviceCta.buttonUrl}
+            image={props.serviceCta.image}
             variant="primary"
           />
         </div>
@@ -43,6 +44,7 @@ export default function Sidebar(props) {
             body={props.genericCta.body}
             buttonText={props.genericCta.buttonText}
             buttonUrl={props.genericCta.buttonUrl}
+            image={props.genericCta.image}
             variant="secondary"
           />
         </div>

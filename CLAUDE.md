@@ -206,6 +206,69 @@ Key fields: Title, Description, Status (Draft/Ready To Publish/Done), Hook, Stor
 
 ---
 
+## Blog Post Layouts
+
+The blog has **3 post layout options**. We use the **sidebar layout** as the primary layout.
+
+| Layout | URL Pattern | Description | Status |
+|--------|-------------|-------------|--------|
+| **Sidebar** | `/post/sidebar/[slug]` | Three-column: TOC left, article center, CTAs right | **Active - primary layout** |
+| Lifestyle | `/post/lifestyle/[slug]` | Full-width hero, single column | Not used |
+| Minimal | `/post/minimal/[slug]` | No hero, single column, clean | Not used |
+
+### Sidebar Layout Features
+- **Table of Contents** (left): Auto-generated from H2/H3 headings, sticky scroll, highlights active section
+- **Article content** (center): Main post body with TL;DR, direct answer, author card
+- **Right sidebar**: Search, related posts, categories, and **CTAs**
+
+---
+
+## Sidebar CTAs
+
+Two types of CTAs appear in the right sidebar on all sidebar-layout posts:
+
+### 1. Service CTA (Category-based)
+Stored as documents in Sanity (`serviceCta` type). Shows based on post categories.
+
+**Schema location**: [lib/sanity/schemas/serviceCta.js](lib/sanity/schemas/serviceCta.js)
+
+Fields:
+- `title` - Internal name
+- `headline` - Attention-grabbing headline
+- `body` - Supporting text
+- `buttonText` / `buttonUrl` - CTA button
+- `image` - Optional image displayed at top of card
+- `categories[]` - Which categories trigger this CTA
+- `isDefault` - Fallback if no category matches
+
+**Example**: AI Voice CTA shows on posts in ai-voice, voice-ai categories.
+
+### 2. Generic CTA (Always shown)
+Stored in Site Settings (`settings` document). Shows on all posts below the Service CTA.
+
+**Fields in settings schema**:
+- `genericCtaHeadline`
+- `genericCtaBody`
+- `genericCtaButtonText`
+- `genericCtaButtonUrl`
+- `genericCtaImage`
+
+### CTA Components
+- [components/sidebarCta.js](components/sidebarCta.js) - Reusable CTA card component
+- [components/sidebar.js](components/sidebar.js) - Sidebar container that renders CTAs
+- [components/tableOfContents.js](components/tableOfContents.js) - TOC component
+
+### GROQ Queries
+```javascript
+// Service CTA - matches by category or falls back to default
+servicectaquery // in lib/sanity/groq.js
+
+// Generic CTA - from site settings
+genericctaquery // in lib/sanity/groq.js
+```
+
+---
+
 ## Notes
 
 - Stock images: 22 pre-generated Midjourney images in `public/blog-images/`
