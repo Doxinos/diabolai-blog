@@ -181,11 +181,32 @@ Key fields: Title, Description, Status (Draft/Ready To Publish/Done), Hook, Stor
 
 ---
 
-## MCP Servers Configured
+## Project-Specific Config
 
-- **Airtable**: Access to Content Ideas table
-- **Gmail**: Email integration
-- **n8n**: Workflow management at diabol.app.n8n.cloud
+| Item | Value |
+|------|-------|
+| **Sanity Project ID** | `wfhx1x7v` |
+| **Sanity Dataset** | `production` |
+| **Airtable Base ID** | `appnsjbSYxfSW0Lpw` |
+| **Airtable Table** | `Content Ideas` |
+
+---
+
+## Orchestrator Reference
+
+**For cross-project decisions, workflow optimization, or tool selection:**
+→ Read `~/.claude/skills/claude-orchestrator.md`
+
+The orchestrator knows:
+- All available MCPs and when to use them
+- When to use CLI vs MCP vs Co-work
+- How projects connect (this blog ↔ Airtable ↔ n8n)
+- Skill loading patterns for content tasks
+
+**Ask the orchestrator when:**
+- Unsure which tool is best for a task
+- Need to coordinate across projects
+- Want to optimize a workflow
 
 ---
 
