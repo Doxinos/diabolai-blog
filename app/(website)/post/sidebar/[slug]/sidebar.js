@@ -127,7 +127,7 @@ export default function Post(props) {
           {post.tldr && post.tldr.length > 0 && (
             <div className="prose prose-lg mx-auto mb-8 border-l-4 border-blue-500 pl-4 dark:prose-invert">
               <h2 className="mt-0 text-xl font-bold text-gray-900 dark:text-white">
-                TL;DR
+                Key Takeaways
               </h2>
               <ul className="mb-0 list-disc space-y-1 pl-5">
                 {post.tldr.map((item, index) => (
