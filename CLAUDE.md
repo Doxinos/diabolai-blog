@@ -112,8 +112,9 @@ Airtable (Draft) → "Generate Draft" button → n8n AI Content Generator → Ai
 | Bi-Weekly Generator | `bzoowtpz5Xe5y7P1` | Auto-selects and generates posts |
 
 ### API Endpoints
-- `POST /api/publish` - Publishes posts to Sanity
+- `POST /api/publish` - Publishes posts to Sanity (accepts keywords)
 - `GET /api/next-image` - Returns next available stock hero image
+- `GET /api/posts-for-linking` - Returns existing posts for internal linking
 - `POST /api/revalidate` - ISR cache revalidation webhook
 
 ---
@@ -130,8 +131,13 @@ Airtable (Draft) → "Generate Draft" button → n8n AI Content Generator → Ai
 - [lib/sanity/groq.js](lib/sanity/groq.js) - GROQ queries for fetching content
 
 ### APIs
-- [app/api/publish/route.ts](app/api/publish/route.ts) - Publish endpoint
+- [app/api/publish/route.ts](app/api/publish/route.ts) - Publish endpoint (accepts keywords)
 - [app/api/next-image/route.ts](app/api/next-image/route.ts) - Auto image assignment
+- [app/api/posts-for-linking/route.ts](app/api/posts-for-linking/route.ts) - Posts for internal linking
+
+### SEO
+- [lib/ai/seoStructure.ts](lib/ai/seoStructure.ts) - AI content structuring with keywords
+- [app/(website)/post/sidebar/[slug]/page.js](app/(website)/post/sidebar/[slug]/page.js) - Full metadata + JSON-LD
 
 ### Style Guides (MUST READ for content generation)
 - [BRAND_VOICE.md](BRAND_VOICE.md) - Diabol AI voice profile
@@ -153,6 +159,7 @@ Post {
   author,          // Reference to author doc
   mainImage,       // Hero image with alt text
   categories[],    // Category references
+  keywords[],      // SEO keywords for meta tags (max 10)
   publishedAt,     // Original publish date
   updatedAt,       // Freshness signal
   body,            // blockContent (rich text)
@@ -168,7 +175,7 @@ Post {
 **Base ID**: `appnsjbSYxfSW0Lpw`
 **Table**: `Content Ideas`
 
-Key fields: Title, Description, Status (Draft/Ready To Publish/Done), Hook, Storyline, Author, Category, Generated Title/Body/TL;DR/Direct Answer, Published URL
+Key fields: Title, Description, Status (Draft/Ready To Publish/Done), Hook, Storyline, Author, Category, Generated Title/Body/TL;DR/Direct Answer/Keywords, Published URL
 
 ---
 
@@ -287,6 +294,27 @@ servicectaquery // in lib/sanity/groq.js
 // Generic CTA - from site settings
 genericctaquery // in lib/sanity/groq.js
 ```
+
+---
+
+## SEO Features
+
+### Keywords Pipeline
+- AI Content Generator creates 5-8 SEO keywords per post
+- Keywords saved to Airtable `Generated Keywords` field (comma-separated)
+- Publisher workflow passes keywords to `/api/publish`
+- Keywords stored in Sanity and rendered in `<meta name="keywords">` tag
+
+### Internal Linking
+- `/api/posts-for-linking` returns existing posts with title, URL, description
+- AI Content Generator includes 2-4 internal links in body content
+- Links use correct `/post/sidebar/{slug}` URL format
+
+### Per-Post Metadata (Sidebar Layout)
+- Full OpenGraph tags (title, description, image, article type)
+- Twitter card metadata (summary_large_image)
+- JSON-LD structured data (Article schema with author, publisher, dates)
+- Per-post keywords in meta tags
 
 ---
 
