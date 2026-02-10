@@ -26,6 +26,7 @@ export interface StructuredPost {
     url: string;
   };
   imagePrompt: string; // Prompt for hero image generation
+  keywords: string[]; // SEO keywords for meta tags
 }
 
 /**
@@ -48,7 +49,8 @@ Transform the input content into this exact JSON structure:
     "text": "Action-oriented CTA text",
     "url": "/suggested-path"
   },
-  "imagePrompt": "Detailed prompt for generating a hero image"
+  "imagePrompt": "Detailed prompt for generating a hero image",
+  "keywords": ["primary keyword", "secondary keyword", "long-tail keyword phrase", "related term", "search intent keyword"]
 }
 
 ## Body Structure Rules
@@ -109,6 +111,16 @@ Create a prompt that:
 - Works as a blog hero image (landscape format)
 - Mentions style: "professional blog header, modern, clean design"
 
+## Keywords Rules
+
+Generate 5-8 relevant SEO keywords that:
+- Include the primary topic and key concepts
+- Mix short-tail (1-2 words) and long-tail (3-4 words) keywords
+- Reflect actual search intent (how people search, not just topic words)
+- Include related terms and synonyms
+- Example for "AI Voice Agents for HVAC": ["AI voice agents", "HVAC automation", "AI receptionist", "automated phone system", "voice AI for service businesses"]
+- Avoid keyword stuffing or repetition
+
 Respond ONLY with the JSON object, no additional text.`;
 
 /**
@@ -138,7 +150,10 @@ export function validateStructuredPost(post: unknown): post is StructuredPost {
     typeof p.suggestedCta === "object" &&
     p.suggestedCta !== null &&
     typeof (p.suggestedCta as Record<string, unknown>).text === "string" &&
-    typeof p.imagePrompt === "string"
+    typeof p.imagePrompt === "string" &&
+    Array.isArray(p.keywords) &&
+    p.keywords.length >= 3 &&
+    p.keywords.every((item) => typeof item === "string")
   );
 }
 

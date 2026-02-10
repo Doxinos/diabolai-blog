@@ -47,6 +47,7 @@ interface PublishRequest {
     url: string;
   };
   featured?: boolean;
+  keywords?: string[];
 }
 
 function validateRequest(data: unknown): data is PublishRequest {
@@ -154,6 +155,7 @@ export async function POST(request: NextRequest) {
       mainImage,
       cta: data.cta,
       featured: data.featured,
+      keywords: data.keywords,
     };
 
     const result = await createPost(postInput);

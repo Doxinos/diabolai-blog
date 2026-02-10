@@ -38,7 +38,7 @@ async function sharedMetaData(params: any) {
     description:
       settings?.description ||
       "Pro version of Stablo, popular open-source next.js and sanity blog template",
-    keywords: ["Next.js", "Sanity", "Tailwind CSS"],
+    keywords: ["AI", "artificial intelligence", "automation", "AI voice agents", "business automation", "AI tools for SMBs"],
     authors: [{ name: "Surjith" }],
     canonical: settings?.url,
     openGraph: {

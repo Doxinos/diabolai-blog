@@ -22,6 +22,7 @@ export interface PostInput {
   };
   featured?: boolean;
   publishedAt?: string;
+  keywords?: string[];
 }
 
 /**
@@ -113,6 +114,10 @@ export async function createPost(input: PostInput): Promise<{
     publishedAt: input.publishedAt || now,
     updatedAt: now,
     featured: input.featured || false,
+    ...(input.keywords &&
+      input.keywords.length > 0 && {
+        keywords: input.keywords,
+      }),
     ...(input.authorId && {
       author: { _type: "reference", _ref: input.authorId },
     }),
@@ -170,6 +175,7 @@ export async function updatePost(
   if (updates.body) patch.body = markdownToBlocks(updates.body);
   if (updates.featured !== undefined) patch.featured = updates.featured;
   if (updates.cta) patch.cta = updates.cta;
+  if (updates.keywords) patch.keywords = updates.keywords;
 
   await writeClient.patch(postId).set(patch).commit();
 }
