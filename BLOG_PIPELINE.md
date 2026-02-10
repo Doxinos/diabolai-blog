@@ -284,6 +284,7 @@ Based on guidelines from [AIclicks](https://aiclicks.io/guide) by Rokas Stankevi
 | `body` | blockContent | Main content (H2/H3, lists, tables, code, embeds) |
 | `cta` | object | Call to action (text + URL) |
 | `featured` | boolean | Featured post flag |
+| `keywords` | array of strings | SEO keywords for meta tags |
 
 ---
 
@@ -348,6 +349,7 @@ Content-Type: application/json
   "categorySlug": ["ai", "automation"],
   "imageUrl": "https://cdn.sanity.io/images/.../image.jpg",
   "imageAlt": "AI automation workflow",
+  "keywords": ["AI blog automation", "n8n workflow", "Sanity CMS"],
   "featured": false
 }
 ```
@@ -361,6 +363,33 @@ Content-Type: application/json
   "url": "https://blog.diabolai.com/how-to-build-an-ai-powered-blog-pipeline"
 }
 ```
+
+### GET `/api/posts-for-linking`
+
+Returns existing blog posts for internal linking during content generation.
+
+**Query Params**:
+- `limit`: Max posts to return (default: 20)
+- `category`: Filter by category slug (optional)
+
+**Response**:
+```json
+{
+  "posts": [
+    {
+      "title": "How AI Voice Agents Transform Customer Service",
+      "url": "/post/sidebar/how-ai-voice-agents-transform-customer-service",
+      "description": "AI voice agents can handle 80% of routine calls...",
+      "categories": ["ai", "voice-ai"]
+    }
+  ],
+  "count": 6
+}
+```
+
+**Usage in n8n**: Call this endpoint before content generation and pass the posts to the AI prompt. The AI will naturally link to 2-4 relevant posts in the body content.
+
+---
 
 ### GET `/api/next-image`
 

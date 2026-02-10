@@ -7,11 +7,19 @@
  * - Conversational search patterns (ChatGPT, Perplexity, etc.)
  */
 
+export interface ExistingPost {
+  title: string;
+  url: string;
+  description: string;
+  categories: string[];
+}
+
 export interface RawContent {
   topic: string;
   content: string;
   sources?: string[];
   targetKeywords?: string[];
+  existingPosts?: ExistingPost[];
 }
 
 export interface StructuredPost {
@@ -76,7 +84,14 @@ The body markdown MUST follow this structure:
 - Use specific numbers and data points
 - Provide clear definitions for key terms
 
-### 5. End with practical takeaways
+### 5. Internal Linking (IMPORTANT):
+- When existing blog posts are provided, link to 2-4 relevant posts naturally within the content
+- Use markdown link format: [anchor text](url)
+- Place links where they add value to the reader (not forced)
+- Choose anchor text that describes what the linked post is about
+- Prioritize posts in the same or related categories
+
+### 6. End with practical takeaways
 
 ## Title Rules
 
@@ -197,6 +212,13 @@ export function buildStructuringPrompt(input: RawContent): string {
 
   if (input.targetKeywords && input.targetKeywords.length > 0) {
     prompt += `\n\n## Target Keywords (incorporate naturally)\n${input.targetKeywords.join(", ")}`;
+  }
+
+  if (input.existingPosts && input.existingPosts.length > 0) {
+    prompt += `\n\n## Existing Blog Posts (link to 2-4 relevant ones)\n`;
+    prompt += input.existingPosts
+      .map((p) => `- "${p.title}" (${p.url}) - ${p.description.slice(0, 100)}...`)
+      .join("\n");
   }
 
   return prompt;
