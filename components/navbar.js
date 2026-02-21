@@ -31,7 +31,7 @@ export default function Navbar() {
       <Container className="max-w-md">
         <nav className="flex items-center justify-between py-3">
           <div>
-            <Link href="/">
+            <Link href="https://www.diabolai.com">
               <Image
                 src="/img/diabol-logo-black.png"
                 width={150}
@@ -51,6 +51,11 @@ export default function Navbar() {
             </Link>
           </div>
           <div className="flex items-center space-x-8">
+            <Link
+              href="/"
+              className="text-sm font-medium text-gray-700 hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400">
+              Blog
+            </Link>
             <ThemeSwitch />
           </div>
         </nav>
