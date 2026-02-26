@@ -51,7 +51,7 @@ export default function PostList({
           <div className="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
             <CategoryLabel categories={post.categories} />
           </div>
-          <h2 className="mt-2 text-xl font-normal leading-snug tracking-wider text-gray-800 dark:text-gray-100">
+          <h2 className="mt-2 text-xl font-normal leading-snug tracking-wider text-near-black dark:text-gray-100">
             <Link
               href={`/${pathPrefix ? `${pathPrefix}/` : ""}${
                 post.slug?.current
@@ -62,7 +62,7 @@ export default function PostList({
             </Link>
           </h2>
           {post.excerpt && (
-            <p className="mt-2 text-sm text-gray-600 dark:text-white">
+            <p className="mt-2 text-sm text-near-black/60 dark:text-white">
               {post.excerpt}
             </p>
           )}
