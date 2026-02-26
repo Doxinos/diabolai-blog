@@ -27,13 +27,18 @@ module.exports = {
         dark: {
           background: '#27292d'
         },
-        gray: colors.neutral
+        gray: colors.neutral,
+        westar: '#DCDBD3',
+        oxford: '#0A2843',
+        orange: {
+          DEFAULT: '#FF4F30',
+          dark: '#E64528',
+        },
+        'near-black': '#111111',
       },
       fontFamily: {
-        // to change, update font in _document.js
-        sans: ["var(--font-roboto)", ...defaultTheme.fontFamily.sans],
-        serif: ["var(--font-poppins)", ...defaultTheme.fontFamily.serif],
-        stock: [defaultTheme.fontFamily.sans]
+        display: ['var(--font-inter)', ...defaultTheme.fontFamily.sans],
+        mono: ['var(--font-jetbrains)', ...defaultTheme.fontFamily.mono],
       },
       boxShadow: {
         'lifted': '0 15px 30px rgba(0,0,0,0.2), 10px 10px 15px rgba(0,0,0,0.15), -10px 10px 15px rgba(0,0,0,0.15)',
