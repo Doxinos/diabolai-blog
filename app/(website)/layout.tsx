@@ -98,7 +98,7 @@ export default async function Layout({
         <Providers>
           <GetNavbar {...settings} />
           <main className="pt-24">{children}</main>
-          <Footer {...settings} />
+          <Footer />
         </Providers>
       </body>
     </html>
