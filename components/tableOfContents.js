@@ -53,22 +53,24 @@ export default function TableOfContents({ body }) {
   if (headings.length === 0) return null;
 
   return (
-    <nav className="font-sans">
-      <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-4">
-        On this page
+    <nav className="bg-white dark:bg-dark-background border border-near-black/10 dark:border-white/10 rounded-2xl p-6">
+      <h3 className="font-mono text-[10px] uppercase tracking-[0.18em] text-near-black/40 dark:text-white/40 mb-4">
+        In This Article
       </h3>
       <ul className="space-y-2 text-sm">
         {headings.map(heading => (
           <li
             key={heading.id}
-            className={heading.level === 3 ? "ml-4" : ""}
+            className={heading.level === 3 ? "pl-4" : ""}
           >
             <a
               href={`#${heading.id}`}
-              className={`block py-1 transition-colors hover:text-blue-600 dark:hover:text-blue-400 ${
+              className={`block py-1 transition-colors ${
                 activeId === heading.id
-                  ? "text-blue-600 dark:text-blue-400 font-medium"
-                  : "text-gray-600 dark:text-gray-400"
+                  ? "text-orange font-semibold border-l-2 border-orange pl-3"
+                  : heading.level === 3
+                    ? "text-near-black/50 dark:text-white/50 hover:text-near-black dark:hover:text-white"
+                    : "text-near-black/70 dark:text-white/70 hover:text-near-black dark:hover:text-white"
               }`}
               onClick={e => {
                 e.preventDefault();
