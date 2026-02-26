@@ -8,8 +8,10 @@ export default function Post({ posts }) {
         <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-near-black/40 dark:text-white/40 mb-4">
           — Diabol AI
         </p>
-        <h1 className="font-display font-black text-near-black dark:text-white text-[clamp(80px,12vw,140px)] leading-[0.88] tracking-tight">
-          THE<br />BLOG
+        <h1 className="font-display font-black text-[clamp(80px,12vw,140px)] leading-[0.88] tracking-tight">
+          <span className="text-near-black dark:text-white">The</span>
+          <br />
+          <span className="text-orange">blog.</span>
         </h1>
       </div>
       {posts && (
