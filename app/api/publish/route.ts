@@ -28,7 +28,8 @@ import { isWriteClientConfigured } from "@/lib/sanity/writeClient";
  *   imageUrl?: string,
  *   imageAlt?: string,
  *   cta?: { text: string, url: string },
- *   featured?: boolean
+ *   featured?: boolean,
+ *   sources?: { title: string, url: string, domain?: string }[]
  * }
  */
 
@@ -48,6 +49,7 @@ interface PublishRequest {
   };
   featured?: boolean;
   keywords?: string[];
+  sources?: { title: string; url: string; domain?: string }[];
 }
 
 function validateRequest(data: unknown): data is PublishRequest {
@@ -156,6 +158,7 @@ export async function POST(request: NextRequest) {
       cta: data.cta,
       featured: data.featured,
       keywords: data.keywords,
+      sources: data.sources,
     };
 
     const result = await createPost(postInput);

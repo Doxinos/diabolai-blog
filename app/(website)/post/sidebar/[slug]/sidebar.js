@@ -84,7 +84,7 @@ export default function Post(props) {
               </div>
 
               <div>
-                <div className="flex space-x-2 text-sm md:flex-row md:items-center">
+                <div className="flex flex-wrap space-x-2 text-sm md:flex-row md:items-center">
                   <time
                     className="text-gray-100 "
                     dateTime={post?.publishedAt || post._createdAt}>
@@ -93,6 +93,17 @@ export default function Post(props) {
                       "MMMM dd, yyyy"
                     )}
                   </time>
+                  {post.updatedAt && post.updatedAt !== post.publishedAt && (
+                    <>
+                      <span className="text-gray-100">·</span>
+                      <span className="text-gray-300">
+                        Updated{" "}
+                        <time dateTime={post.updatedAt}>
+                          {format(parseISO(post.updatedAt), "MMMM yyyy")}
+                        </time>
+                      </span>
+                    </>
+                  )}
                   <span className="text-gray-100">
                     · {post.estReadingTime || "5"} min read
                   </span>
@@ -142,6 +153,35 @@ export default function Post(props) {
           <div className="prose prose-lg mx-auto my-3 dark:prose-invert prose-a:text-blue-500">
             {post.body && <PortableText value={post.body} />}
           </div>
+
+          {/* Sources / Citations */}
+          {post.sources && post.sources.length > 0 && (
+            <div className="prose prose-lg mx-auto mt-10 border-t border-gray-200 pt-6 dark:border-gray-700 dark:prose-invert">
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+                Sources
+              </h2>
+              <ul className="list-disc space-y-1 pl-5">
+                {post.sources.map((source, index) => (
+                  <li key={index} className="text-gray-700 dark:text-gray-300">
+                    <a
+                      href={source.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:underline dark:text-blue-400">
+                      {source.title}
+                    </a>
+                    {source.domain && (
+                      <span className="text-gray-500 dark:text-gray-400">
+                        {" "}
+                        — {source.domain}
+                      </span>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
           <div className="mb-7 mt-7 flex justify-center">
             <Link
               href="/"

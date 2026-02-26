@@ -1,0 +1,12 @@
+{
+  "postId": "mOv92sLYpsWf5r6TL0agE0",
+  "excerpt": "AI voice systems can now detect caller emotions in real-time by analyzing tone, pitch, and speech patterns. Companies like Cogito (deployed at MetLife across 10 US call centers) and Hume AI are leading the shift from robotic phone automation to emotionally aware conversations.",
+  "directAnswer": "Yes, AI voice systems can now detect and respond to caller emotions in real-time. Cogito (now part of Verint) analyzes over 200 acoustic signals during live calls and is deployed at MetLife, Humana, and Fortune 25 companies. Hume AI's Empathic Voice Interface goes further, building emotional awareness directly into autonomous AI agents. Real-world results include 13% improvement in customer satisfaction at MetLife and measurable reductions in call handle times across healthcare and insurance deployments.",
+  "tldr": [
+    "Emotion detection in voice AI is real and in production at companies like MetLife, Humana, and Fortune 25 telecoms — not theoretical",
+    "Cogito (now Verint) analyzes 200+ acoustic signals in real-time and has improved customer satisfaction by 13% at MetLife",
+    "Hume AI's Empathic Voice Interface represents the next wave — autonomous AI agents that understand and respond to emotions without human coaching",
+    "The emotion detection market is projected to grow from $42.83 billion in 2024 to $113.32 billion by 2032"
+  ],
+  "bodyFile": "update-body.md"
+}

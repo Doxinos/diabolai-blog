@@ -23,6 +23,7 @@ export interface PostInput {
   featured?: boolean;
   publishedAt?: string;
   keywords?: string[];
+  sources?: { title: string; url: string; domain?: string }[];
 }
 
 /**
@@ -143,6 +144,16 @@ export async function createPost(input: PostInput): Promise<{
         url: input.cta.url,
       },
     }),
+    ...(input.sources &&
+      input.sources.length > 0 && {
+        sources: input.sources.map((s, i) => ({
+          _type: "object",
+          _key: `source-${i}`,
+          title: s.title,
+          url: s.url,
+          ...(s.domain && { domain: s.domain }),
+        })),
+      }),
   };
 
   const result = await writeClient.create(document);
@@ -176,6 +187,14 @@ export async function updatePost(
   if (updates.featured !== undefined) patch.featured = updates.featured;
   if (updates.cta) patch.cta = updates.cta;
   if (updates.keywords) patch.keywords = updates.keywords;
+  if (updates.sources)
+    patch.sources = updates.sources.map((s, i) => ({
+      _type: "object",
+      _key: `source-${i}`,
+      title: s.title,
+      url: s.url,
+      ...(s.domain && { domain: s.domain }),
+    }));
 
   await writeClient.patch(postId).set(patch).commit();
 }

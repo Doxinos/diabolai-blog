@@ -28,6 +28,7 @@ export async function generateMetadata({ params }) {
       description: post?.excerpt || post?.directAnswer,
       type: "article",
       publishedTime: post?.publishedAt || post?._createdAt,
+      ...(post?.updatedAt && { modifiedTime: post.updatedAt }),
       authors: post?.author?.name ? [post.author.name] : ["Diabol AI"],
       ...(imageUrl && {
         images: [

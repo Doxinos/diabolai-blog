@@ -35,6 +35,7 @@ export interface StructuredPost {
   };
   imagePrompt: string; // Prompt for hero image generation
   keywords: string[]; // SEO keywords for meta tags
+  sources: { title: string; url: string; domain: string }[]; // Authoritative citations
 }
 
 /**
@@ -58,7 +59,10 @@ Transform the input content into this exact JSON structure:
     "url": "/suggested-path"
   },
   "imagePrompt": "Detailed prompt for generating a hero image",
-  "keywords": ["primary keyword", "secondary keyword", "long-tail keyword phrase", "related term", "search intent keyword"]
+  "keywords": ["primary keyword", "secondary keyword", "long-tail keyword phrase", "related term", "search intent keyword"],
+  "sources": [
+    {"title": "Source Title", "url": "https://example.com/report", "domain": "Publisher Name"}
+  ]
 }
 
 ## Body Structure Rules
@@ -93,15 +97,22 @@ The body markdown MUST follow this structure:
 
 ### 6. End with practical takeaways
 
-## Title Rules
+## Title Rules (H1 = Question Format)
 
-- Frame as a natural question people type into AI assistants
+- H1 MUST be a natural question people type into AI assistants
+- This is critical for AI citation — AI systems match user questions to content titles
 - Examples:
-  - "What is the best way to [do X]?"
-  - "How do I [achieve Y]?"
-  - "Why should I [consider Z]?"
+  - "What Is an AI Voice Agent for Small Business?"
+  - "How Much Does an AI Receptionist Cost?"
+  - "Why Should SMBs Invest in Voice AI?"
 - Avoid keyword-stuffed titles
 - Keep under 60 characters for SEO
+
+## H2 Heading Rules (Hybrid Format)
+
+- Use question format for high-intent sections: "How much does it cost?", "What are the benefits?"
+- Use statement format for explanatory sections: "Key Features to Look For", "Implementation Timeline"
+- Each H2 should cover ONE topic that could be extracted independently by AI systems
 
 ## Direct Answer Rules
 
@@ -136,6 +147,14 @@ Generate 5-8 relevant SEO keywords that:
 - Example for "AI Voice Agents for HVAC": ["AI voice agents", "HVAC automation", "AI receptionist", "automated phone system", "voice AI for service businesses"]
 - Avoid keyword stuffing or repetition
 
+## Sources Rules
+
+Generate 3-5 authoritative citations that:
+- Support claims made in the article with real, credible sources
+- Include industry reports, research studies, and authoritative publications
+- Each source needs: title (what the source is), url (link), domain (publisher name e.g. "Gartner", "McKinsey")
+- AI systems follow citation chains — citing authoritative sources makes YOUR content more likely to be cited
+
 Respond ONLY with the JSON object, no additional text.`;
 
 /**
@@ -168,7 +187,15 @@ export function validateStructuredPost(post: unknown): post is StructuredPost {
     typeof p.imagePrompt === "string" &&
     Array.isArray(p.keywords) &&
     p.keywords.length >= 3 &&
-    p.keywords.every((item) => typeof item === "string")
+    p.keywords.every((item) => typeof item === "string") &&
+    Array.isArray(p.sources) &&
+    p.sources.every(
+      (s) =>
+        typeof s === "object" &&
+        s !== null &&
+        typeof (s as Record<string, unknown>).title === "string" &&
+        typeof (s as Record<string, unknown>).url === "string"
+    )
   );
 }
 
