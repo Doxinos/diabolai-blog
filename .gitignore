@@ -46,3 +46,8 @@ next-env.d.ts
 # Sanity CMS
 /.sanity
 /distn8n-workflow-update.json
+
+# Claude Code
+.claude/
+.playwright-mcp/
+.planning/
