@@ -136,7 +136,7 @@ export default function Post(props) {
 
           {/* TL;DR Section */}
           {post.tldr && post.tldr.length > 0 && (
-            <div className="prose prose-lg mx-auto mb-8 border-l-4 border-blue-500 pl-4 dark:prose-invert">
+            <div className="prose prose-lg mx-auto mb-8 border-l-4 border-orange bg-orange/5 pl-4 dark:prose-invert">
               <h2 className="mt-0 text-xl font-bold text-gray-900 dark:text-white">
                 Key Takeaways
               </h2>
@@ -185,7 +185,7 @@ export default function Post(props) {
           <div className="mb-7 mt-7 flex justify-center">
             <Link
               href="/"
-              className="bg-brand-secondary/20 rounded-full px-5 py-2 text-sm text-blue-600 dark:text-blue-500 ">
+              className="bg-orange/10 rounded-full px-5 py-2 text-sm text-orange font-display font-semibold hover:bg-orange/20 transition-colors">
               ← View all posts
             </Link>
           </div>
