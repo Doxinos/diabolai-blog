@@ -4,4 +4,8 @@
 @tailwind components;
 @tailwind utilities;
 
-/*Custom Styles Here*/
+@layer base {
+  .dark body {
+    @apply bg-dark-background;
+  }
+}
