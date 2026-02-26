@@ -4,17 +4,13 @@ import PostList from "@/components/postlist";
 export default function Post({ posts }) {
   return (
     <>
-      <div className="-mt-32 bg-gray-100 dark:bg-gray-900 [clip-path:polygon(0%_0%,_100%_0%,_100%_25%,_55%_100%,_0%_100%)]">
-        <Container large={true}>
-          <div className="pt-40 pb-48 text-left px-8 xl:px-5">
-            <h1 className="text-4xl font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:text-5xl md:text-6xl">
-              Diabol AI Blog
-            </h1>
-            <p className="mt-6 max-w-2xl text-lg text-gray-600 dark:text-gray-400">
-              Get inspiration on productivity, design, and technology.
-            </p>
-          </div>
-        </Container>
+      <div className="px-8 xl:px-5 pt-16 pb-12">
+        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-near-black/40 dark:text-white/40 mb-4">
+          — Diabol AI
+        </p>
+        <h1 className="font-display font-black text-near-black dark:text-white text-[clamp(80px,12vw,140px)] leading-[0.88] tracking-tight">
+          THE<br />BLOG
+        </h1>
       </div>
       {posts && (
         <Container large={true}>
