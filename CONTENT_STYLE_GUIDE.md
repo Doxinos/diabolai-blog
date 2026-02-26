@@ -21,18 +21,19 @@ Every blog post should follow this structure (top to bottom):
 
 ---
 
-## 1. Title
+## 1. Title (H1)
 
-- **Format:** Statement-based, not a question
+- **Format:** Question-based — matches how users query AI assistants
 - **Length:** 50-60 characters ideal for SEO
-- **Style:** Clear, specific, includes primary keyword
+- **Style:** Natural question that includes primary keyword
+- **Why:** AI systems match user questions to content titles. If someone asks ChatGPT "What is an AI voice agent?" and your H1 is that exact question, you get cited.
 
 ### Examples:
 | Good | Avoid |
 |------|-------|
-| "Why SMBs Should Prioritize AI Voice Now" | "Should You Use AI Voice?" |
-| "The Complete Guide to AI Search Optimization" | "What is AI Search?" |
-| "5 Ways Voice AI Reduces Operational Costs" | "Can Voice AI Save Money?" |
+| "What Is an AI Voice Agent for Small Business?" | "The Complete Guide to AI Voice Agents" |
+| "How Much Does an AI Receptionist Cost in 2026?" | "AI Receptionist Pricing Overview" |
+| "Why Should SMBs Invest in Voice AI Now?" | "5 Ways Voice AI Reduces Costs" |
 
 ---
 
@@ -78,16 +79,18 @@ The body of your article, organized under H2 headings.
 
 | Level | Use For | Style |
 |-------|---------|-------|
-| H2 | Main sections | Statement-based, numbered if sequential |
+| H2 | Main sections | **Hybrid** — questions for high-intent, statements for explanatory |
 | H3 | Subsections | Can be questions or statements |
 | H4 | Sub-subsections (rare) | Use sparingly |
 
+**H2 Hybrid Approach:** Use question format for sections where users actively search for answers (pricing, "how does it work", comparisons). Use statement format for explanatory or narrative sections (features, implementation steps, background).
+
 ### Main Section Heading Examples:
 ```markdown
-## 1. Why Voice AI Matters for SMBs
-## 2. The Hidden Cost of Missed Calls
-## 3. How to Implement Voice AI Step-by-Step
-## 4. Measuring ROI and Success Metrics
+## How Much Does an AI Voice Agent Cost?          ← question (high-intent)
+## The Hidden Cost of Missed Calls                ← statement (explanatory)
+## How Do You Implement Voice AI Step-by-Step?    ← question (high-intent)
+## Key Features to Look For                       ← statement (explanatory)
 ```
 
 ### Content Guidelines:
@@ -124,24 +127,27 @@ Most businesses see measurable results within 2-4 weeks of implementation. Initi
 
 ---
 
-## 6. Further Reading & Essential Resources
+## 6. Sources & Citations (Structured)
 
-A curated list of authoritative external resources for readers who want to dive deeper.
+Authoritative sources cited in the post. These are stored as structured data in the Sanity `sources` field (not just inline links) so AI systems can follow citation chains.
 
-- **Heading:** `## Further Reading & Essential Resources`
-- **Format:** Bulleted list of hyperlinks
-- **Count:** 3-6 links
-- **Selection:** Choose authoritative, relevant sources (industry publications, research, tools)
+- **Sanity Field:** `sources` — array of `{title, url, domain}`
+- **Count:** 3-5 authoritative sources per post
+- **Selection:** Industry reports, research studies, authoritative publications
+- **Why:** AI systems follow citation chains. Citing credible sources makes YOUR content more likely to be cited.
 
-### Example:
+### How to add:
+In Sanity Studio, use the "Sources & Citations" field on the post. Each entry needs:
+- **Title:** What the source is (e.g., "The State of AI in Customer Service 2026")
+- **URL:** Direct link to the source
+- **Domain:** Publisher name (e.g., "Gartner", "McKinsey", "Search Engine Land")
+
+These render automatically as a "Sources" section at the bottom of every post.
+
+### You can ALSO include inline links in body content:
 ```markdown
-## Further Reading & Essential Resources
-
-- [How to Optimize Content to Rank in AI Search Results](https://example.com/ai-seo-guide)
-- [Search Engine Land: Measuring AI Search Visibility](https://searchengineland.com/ai-visibility)
-- [Gartner: The Future of Conversational AI](https://gartner.com/conversational-ai)
-- [McKinsey: AI Adoption in Small Business](https://mckinsey.com/smb-ai)
-- Visit the [Diabol AI Knowledge Base](/resources) for implementation templates
+According to [Gartner's 2026 report](https://gartner.com/ai-customer-service),
+82% of customer interactions will involve AI by 2027.
 ```
 
 ---
@@ -161,7 +167,7 @@ End with a brief call-to-action that invites engagement.
 |---------|--------|
 | Direct Answer | *Italicized paragraph* |
 | TL;DR | Bulleted list with blue left border |
-| Main headings (H2) | Statement-based, optionally numbered |
+| Main headings (H2) | Hybrid: questions for high-intent, statements for explanatory |
 | FAQ questions (H3) | Question format with "?" |
 | External links | Open in new tab, use descriptive anchor text |
 | Statistics | Bold the number: "**40%** of calls are missed" |
@@ -189,12 +195,12 @@ When creating a post in Sanity, fill out these fields:
 
 ## Checklist Before Publishing
 
-- [ ] Title is statement-based and includes primary keyword
+- [ ] Title (H1) is question-based and includes primary keyword
 - [ ] Direct Answer field is filled (1-2 sentences)
 - [ ] TL;DR has 3-5 substantive bullet points
 - [ ] Main content has clear H2 sections
 - [ ] FAQ section has 3-6 questions with concise answers
-- [ ] Further Reading section has 3-6 authoritative links
+- [ ] Sources field has 3-5 authoritative citations (title, url, domain)
 - [ ] All images have descriptive alt text
 - [ ] Internal links to related Diabol AI content included
 - [ ] External links open in new tab
@@ -207,7 +213,7 @@ When creating a post in Sanity, fill out these fields:
 ## Example Post Outline
 
 ```markdown
-# Why SMBs Should Implement Voice AI Before Competitors
+# Why Should SMBs Implement Voice AI Before Competitors?
 
 *Voice AI delivers immediate ROI for SMBs by capturing missed revenue
 and preparing your business for broader AI transformation.*
@@ -218,16 +224,16 @@ and preparing your business for broader AI transformation.*
 - Point 3...
 - Point 4...
 
-## 1. The Hidden Cost of Missed Calls
+## The Hidden Cost of Missed Calls
 Content...
 
-## 2. Why Voice AI is the Ideal Starting Point
+## Why Is Voice AI the Ideal Starting Point?
 Content...
 
-## 3. Implementation: A Step-by-Step Approach
+## How Do You Implement Voice AI Step-by-Step?
 Content...
 
-## 4. Measuring Success and ROI
+## Measuring Success and ROI
 Content...
 
 ## Frequently Asked Questions
@@ -241,15 +247,12 @@ Answer...
 ### Will customers know they're talking to AI?
 Answer...
 
-## Further Reading & Essential Resources
-- [Link 1](url)
-- [Link 2](url)
-- [Link 3](url)
-
 Ready to explore voice AI for your business? [Book a demo](/demo)
 to see how Diabol AI can help you capture more leads and streamline operations.
 ```
 
+**Note:** Sources are added via the Sanity "Sources & Citations" field, not inline in the body.
+
 ---
 
-*Last updated: January 2026*
+*Last updated: February 2026*

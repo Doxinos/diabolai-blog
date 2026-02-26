@@ -199,14 +199,27 @@ Key fields: Title, Description, Status (Draft/Ready To Publish/Done), Hook, Stor
 
 ---
 
+## brain/ Knowledge OS Sync
+
+Project docs for this blog live in `~/brain/projects/blog-system/README.md`.
+Operational docs: `~/brain/ops/automations/`
+
+**When to update brain/:**
+- Pipeline changes (new n8n workflows, API changes) → update `~/brain/ops/automations/`
+- Architectural decisions → update `~/brain/projects/blog-system/README.md`
+- Infrastructure changes (new MCP, new integration) → flag for orchestrator update
+- Completed milestones → add to build log in project README
+
+**brain/ is the knowledge layer. This repo is the code layer.**
+
 ## Orchestrator Reference
 
 **For cross-project decisions, workflow optimization, or tool selection:**
-→ Read `~/.claude/skills/claude-orchestrator.md`
+→ Read `~/.claude/CLAUDE.md` (Global Orchestrator)
 
 The orchestrator knows:
 - All available MCPs and when to use them
-- When to use CLI vs MCP vs Co-work
+- When to use CLI vs MCP vs Cowork
 - How projects connect (this blog ↔ Airtable ↔ n8n)
 - Skill loading patterns for content tasks
 

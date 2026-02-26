@@ -64,7 +64,8 @@ Automated pipeline for publishing SEO/GEO-optimized blog posts to Sanity CMS wit
 │                                    ├─ Generated Title        ├─ Generated Title              │
 │                                    ├─ Generated Direct Answer├─ Generated Direct Answer      │
 │                                    ├─ Generated TL;DR        ├─ Generated TL;DR              │
-│                                    └─ Generated Body         └─ Generated Body               │
+│                                    ├─ Generated Body         ├─ Generated Body               │
+│                                    └─ Generated Sources      └─ Generated Sources            │
 │                                                                                              │
 └─────────────────────────────────────────────────────────────────────────────────────────────┘
 
@@ -112,7 +113,7 @@ SEPARATE WORKFLOW (LinkedIn Parasite):
 - **Trigger**: "Generate Draft" button in Airtable
 - **Input**: Title, Description, Hook, Storyline from Airtable
 - **Output**: Full article with SEO structure following brand voice
-- **Fields Populated**: Generated Title, Generated Direct Answer, Generated TL;DR, Generated Body
+- **Fields Populated**: Generated Title, Generated Direct Answer, Generated TL;DR, Generated Body, Generated Sources
 - **Status Change**: Draft → Ready To Publish
 - **Notifications**: Posts draft to #blog-drafts Slack channel for review
 - **Style Guides**: Prompt includes BRAND_VOICE.md, HUMAN_WRITING.md, and CONTENT_STYLE_GUIDE.md rules
@@ -285,6 +286,7 @@ Based on guidelines from [AIclicks](https://aiclicks.io/guide) by Rokas Stankevi
 | `cta` | object | Call to action (text + URL) |
 | `featured` | boolean | Featured post flag |
 | `keywords` | array of strings | SEO keywords for meta tags |
+| `sources` | array of objects | Authoritative citations ({title, url, domain}) |
 
 ---
 
@@ -307,6 +309,7 @@ Based on guidelines from [AIclicks](https://aiclicks.io/guide) by Rokas Stankevi
 | Generated Direct Answer | Long text | AI-generated direct answer |
 | Generated TL;DR | Long text | AI-generated bullet points |
 | Generated Body | Long text | AI-generated full article (markdown) |
+| Generated Sources | Long text | AI-generated citations (JSON array) |
 | Published URL | URL | Auto-filled after publish |
 | Generate Draft | Button | Triggers AI content generation |
 | Open URL | Button | Triggers publish workflow |
@@ -350,6 +353,10 @@ Content-Type: application/json
   "imageUrl": "https://cdn.sanity.io/images/.../image.jpg",
   "imageAlt": "AI automation workflow",
   "keywords": ["AI blog automation", "n8n workflow", "Sanity CMS"],
+  "sources": [
+    {"title": "Gartner: AI in Customer Service 2026", "url": "https://gartner.com/...", "domain": "Gartner"},
+    {"title": "McKinsey: State of AI", "url": "https://mckinsey.com/...", "domain": "McKinsey"}
+  ],
   "featured": false
 }
 ```
