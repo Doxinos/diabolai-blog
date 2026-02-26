@@ -1,7 +1,7 @@
 import "@/styles/tailwind.css";
 import { Providers } from "./providers";
 import { cx } from "@/utils/all";
-import { Poppins, Roboto } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import { getSettings } from "@/lib/sanity/client";
 import Footer from "@/components/footer";
 import GetNavbar from "@/components/getnavbar";
@@ -10,16 +10,16 @@ import Script from "next/script";
 
 const GA_MEASUREMENT_ID = "G-WLJQP76D6X";
 
-const poppins = Poppins({
+const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-poppins",
-  weight: ["400", "700"]
+  variable: "--font-inter",
+  weight: ["400", "600", "700", "800", "900"],
 });
 
-const roboto = Roboto({
+const jetbrains = JetBrains_Mono({
   subsets: ["latin"],
-  variable: "--font-roboto",
-  weight: ["400", "500"]
+  variable: "--font-jetbrains",
+  weight: ["400", "500", "700"],
 });
 
 async function sharedMetaData(params: any) {
@@ -79,7 +79,7 @@ export default async function Layout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={cx(poppins.variable, roboto.variable)}>
+      className={cx(inter.variable, jetbrains.variable)}>
       <head>
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
@@ -94,10 +94,10 @@ export default async function Layout({
           `}
         </Script>
       </head>
-      <body className="text-gray-800 antialiased dark:bg-dark-background dark:text-gray-400">
+      <body className="font-display text-near-black antialiased bg-westar dark:bg-dark-background dark:text-gray-400">
         <Providers>
           <GetNavbar {...settings} />
-          <main>{children}</main>
+          <main className="pt-24">{children}</main>
           <Footer {...settings} />
         </Providers>
       </body>
