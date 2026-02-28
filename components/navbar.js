@@ -6,9 +6,9 @@ import ThemeSwitch from "./themeSwitch";
 import { cx } from "@/utils/all";
 
 const navLinks = [
-  { label: "Voice Agents", href: "https://www.diabolai.com/voice-agents" },
-  { label: "AI Content", href: "https://www.diabolai.com/ai-content" },
-  { label: "AI Avatars", href: "https://www.diabolai.com/ai-avatars" },
+  { label: "Voice Agents", href: "https://www.diabolai.com" },
+  { label: "AI Content", href: "https://www.diabolai.com" },
+  { label: "AI Avatars", href: "https://www.diabolai.com" },
   { label: "Blog", href: "/" },
 ];
 

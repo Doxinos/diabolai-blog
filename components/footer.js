@@ -3,14 +3,14 @@ import Image from "next/image";
 
 const footerLinks = {
   Services: [
-    { label: "Voice Agents", href: "https://www.diabolai.com/voice-agents" },
-    { label: "AI Content", href: "https://www.diabolai.com/ai-content" },
-    { label: "AI Avatars", href: "https://www.diabolai.com/ai-avatars" },
+    { label: "Voice Agents", href: "https://www.diabolai.com" },
+    { label: "AI Content", href: "https://www.diabolai.com" },
+    { label: "AI Avatars", href: "https://www.diabolai.com" },
   ],
   Company: [
-    { label: "About", href: "https://www.diabolai.com/about" },
-    { label: "Contact", href: "https://www.diabolai.com/contact" },
-    { label: "Book a Call", href: "https://www.diabolai.com/book-a-call" },
+    { label: "About", href: "https://www.diabolai.com" },
+    { label: "Contact", href: "https://www.diabolai.com" },
+    { label: "Book a Call", href: "https://www.diabolai.com" },
   ],
   Blog: [
     { label: "All Posts", href: "/" },

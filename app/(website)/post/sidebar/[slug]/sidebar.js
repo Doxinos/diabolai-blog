@@ -26,15 +26,15 @@ export default function Post(props) {
 
   return (
     <>
-      <div className="relative z-0 flex min-h-[calc(100vh-30vh)] items-center">
+      <div className="relative z-0 flex min-h-[calc(100vh-30vh)] items-center overflow-hidden">
         {imageProps && (
-          <div className="absolute -z-10 h-full w-full before:absolute before:z-10 before:h-full before:w-full before:bg-black/30">
+          <div className="absolute inset-0 -z-10 before:absolute before:inset-0 before:z-10 before:bg-black/30">
             <Image
               src={imageProps.src}
               alt={post.mainImage?.alt || "Thumbnail"}
               loading="eager"
               fill
-              sizes="100vw"
+              sizes="(max-width: 1536px) 100vw, 1536px"
               className="object-cover"
             />
           </div>
@@ -57,7 +57,7 @@ export default function Post(props) {
                           alt={post?.author?.name || "Author"}
                           className="rounded-full object-cover"
                           fill
-                          sizes="100vw"
+                          sizes="20px"
                         />
                       </Link>
                     ) : (
@@ -66,7 +66,7 @@ export default function Post(props) {
                         alt={post?.author?.name || "Author"}
                         className="rounded-full object-cover"
                         fill
-                        sizes="100vw"
+                        sizes="20px"
                       />
                     )
                   )}

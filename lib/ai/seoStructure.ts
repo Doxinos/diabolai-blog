@@ -71,31 +71,48 @@ The body markdown MUST follow this structure:
 
 ### 1. Start with H2 sections, NOT H1 (H1 is the title)
 
-### 2. Each H2 answers a variation of the main question:
+### 2. Required sections in order:
+- Main content H2 sections (3-6 sections)
+- "## Frequently Asked Questions" with 3-6 H3 questions and answers
+- Closing CTA paragraph
+
+### 3. Each H2 answers a variation of the main question:
 - "How does [topic] work?"
 - "Why is [topic] important?"
 - "What are the steps to [action]?"
 - "What are the benefits of [topic]?"
 
-### 3. Format for AI readability:
+### 4. Format for AI readability:
 - One idea per section
 - Short paragraphs (2-3 sentences max)
 - Use bullet lists for multiple points
 - Include data, statistics, or definitions that can be cited
 
-### 4. Include citable content:
+### 5. Include citable content:
 - Link to authoritative sources where relevant
 - Use specific numbers and data points
 - Provide clear definitions for key terms
 
-### 5. Internal Linking (IMPORTANT):
+### 7. Internal Linking (IMPORTANT):
 - When existing blog posts are provided, link to 2-4 relevant posts naturally within the content
 - Use markdown link format: [anchor text](url)
 - Place links where they add value to the reader (not forced)
 - Choose anchor text that describes what the linked post is about
 - Prioritize posts in the same or related categories
 
-### 6. End with practical takeaways
+### 8. FAQ Section (REQUIRED)
+- Include a section with H2 heading: "## Frequently Asked Questions"
+- Add 3-6 questions as H3 subheadings, phrased as actual questions with "?"
+- Each answer should be 2-4 sentences, direct and helpful
+- Questions should address common reader queries related to the topic
+- These help with SEO (FAQ rich results) and AI visibility (Q&A pairs are highly cited)
+- Place this section AFTER the main content but BEFORE the closing CTA paragraph
+
+### 9. Closing CTA Paragraph
+- End the article body with a brief call-to-action paragraph
+- Invite the reader to take the next step (book a demo, explore services, etc.)
+- Keep it conversational, not salesy
+- Example: "Ready to take action? If you have questions or want to explore how Diabol AI can help, [book a demo call](https://calendar.app.google/LF7oJMMcn3LRDKWZ8) — we're always happy to share what's working."
 
 ## Title Rules (H1 = Question Format)
 

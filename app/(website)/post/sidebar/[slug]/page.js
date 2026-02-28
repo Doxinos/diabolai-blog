@@ -50,51 +50,106 @@ export async function generateMetadata({ params }) {
   };
 }
 
+function extractFaqFromBody(body) {
+  if (!body || !Array.isArray(body)) return [];
+
+  const faqs = [];
+  let inFaqSection = false;
+  let currentQuestion = null;
+
+  for (const block of body) {
+    const text = block.children?.map(c => c.text).join("") || "";
+
+    if (block.style === "h2" && text.toLowerCase().includes("frequently asked questions")) {
+      inFaqSection = true;
+      continue;
+    }
+
+    if (inFaqSection && block.style === "h2") {
+      break;
+    }
+
+    if (inFaqSection && block.style === "h3") {
+      if (currentQuestion) {
+        faqs.push(currentQuestion);
+      }
+      currentQuestion = { question: text, answer: "" };
+    } else if (inFaqSection && currentQuestion && block.style === "normal") {
+      if (currentQuestion.answer) currentQuestion.answer += " ";
+      currentQuestion.answer += text;
+    }
+  }
+
+  if (currentQuestion) {
+    faqs.push(currentQuestion);
+  }
+
+  return faqs;
+}
+
 function generateJsonLd(post, slug) {
   const imageUrl = post?.mainImage ? urlForImage(post.mainImage)?.src : null;
   const postSlug = post?.slug?.current || slug;
 
+  const graph = [
+    {
+      "@type": "Article",
+      "@id": `https://blog.diabolai.com/post/sidebar/${postSlug}#article`,
+      "headline": post.title,
+      "description": post.excerpt || post.directAnswer || "",
+      "datePublished": post.publishedAt || post._createdAt,
+      "dateModified": post.updatedAt || post.publishedAt || post._createdAt,
+      "author": {
+        "@type": "Person",
+        "name": post.author?.name || "Diabol AI",
+        ...(post.author?.slug?.current && {
+          "url": `https://blog.diabolai.com/author/${post.author.slug.current}`
+        }),
+        ...(post.author?.linkedinUrl && {
+          "sameAs": [post.author.linkedinUrl]
+        })
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Diabol AI",
+        "url": "https://www.diabolai.com",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://www.diabolai.com/logo.png"
+        }
+      },
+      ...(imageUrl && {
+        "image": {
+          "@type": "ImageObject",
+          "url": imageUrl
+        }
+      }),
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": `https://blog.diabolai.com/post/sidebar/${postSlug}`
+      }
+    }
+  ];
+
+  const faqs = extractFaqFromBody(post.body);
+  if (faqs.length > 0) {
+    graph.push({
+      "@type": "FAQPage",
+      "@id": `https://blog.diabolai.com/post/sidebar/${postSlug}#faq`,
+      "mainEntity": faqs.map(faq => ({
+        "@type": "Question",
+        "name": faq.question,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": faq.answer
+        }
+      }))
+    });
+  }
+
   return {
     "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "Article",
-        "@id": `https://blog.diabolai.com/post/sidebar/${postSlug}#article`,
-        "headline": post.title,
-        "description": post.excerpt || post.directAnswer || "",
-        "datePublished": post.publishedAt || post._createdAt,
-        "dateModified": post.updatedAt || post.publishedAt || post._createdAt,
-        "author": {
-          "@type": "Person",
-          "name": post.author?.name || "Diabol AI",
-          ...(post.author?.slug?.current && {
-            "url": `https://blog.diabolai.com/author/${post.author.slug.current}`
-          }),
-          ...(post.author?.linkedinUrl && {
-            "sameAs": [post.author.linkedinUrl]
-          })
-        },
-        "publisher": {
-          "@type": "Organization",
-          "name": "Diabol AI",
-          "url": "https://www.diabolai.com",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "https://www.diabolai.com/logo.png"
-          }
-        },
-        ...(imageUrl && {
-          "image": {
-            "@type": "ImageObject",
-            "url": imageUrl
-          }
-        }),
-        "mainEntityOfPage": {
-          "@type": "WebPage",
-          "@id": `https://blog.diabolai.com/post/sidebar/${postSlug}`
-        }
-      }
-    ]
+    "@graph": graph
   };
 }
 
