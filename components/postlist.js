@@ -24,7 +24,7 @@ export default function PostList({
             "aspect-3/2"
           )}>
           <Link
-            href={`/${pathPrefix ? `${pathPrefix}/` : ""}${
+            href={`/${pathPrefix || "post/sidebar"}/${
               post.slug?.current
             }`}>
             {imageProps ? (

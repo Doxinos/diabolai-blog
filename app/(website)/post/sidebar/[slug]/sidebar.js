@@ -197,7 +197,7 @@ export default function Post(props) {
           <div className="sticky top-24">
             <Sidebar
               categories={categories}
-              pathPrefix="sidebar"
+              pathPrefix="post/sidebar"
               related={post.related.filter(
                 item => item.slug.current !== slug
               )}

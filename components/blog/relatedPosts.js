@@ -28,7 +28,7 @@ function RelatedPostCard({ post }) {
 
   return (
     <div className="group">
-      <Link href={`/${post.slug.current}`}>
+      <Link href={`/post/sidebar/${post.slug.current}`}>
         <div className="relative aspect-video overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800">
           {imageProps ? (
             <Image
@@ -54,7 +54,7 @@ function RelatedPostCard({ post }) {
           </div>
         )}
         <h3 className="font-medium text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400">
-          <Link href={`/${post.slug.current}`}>
+          <Link href={`/post/sidebar/${post.slug.current}`}>
             {post.title}
           </Link>
         </h3>
