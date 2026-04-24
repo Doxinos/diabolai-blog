@@ -3,14 +3,13 @@ import Image from "next/image";
 
 const footerLinks = {
   Services: [
-    { label: "Voice Agents", href: "https://www.diabolai.com" },
-    { label: "AI Content", href: "https://www.diabolai.com" },
-    { label: "AI Avatars", href: "https://www.diabolai.com" },
+    { label: "AI Voice", href: "https://www.diabolai.com/ai-voice" },
+    { label: "AI Video", href: "https://www.diabolai.com/ai-content" },
   ],
-  Company: [
-    { label: "About", href: "https://www.diabolai.com" },
-    { label: "Contact", href: "https://www.diabolai.com" },
-    { label: "Book a Call", href: "https://www.diabolai.com" },
+  Resources: [
+    { label: "Home", href: "https://www.diabolai.com/" },
+    { label: "FAQ", href: "https://www.diabolai.com/faq" },
+    { label: "Book a Call", href: "https://www.diabolai.com/" },
   ],
   Blog: [
     { label: "All Posts", href: "/" },
@@ -65,7 +64,7 @@ export default function Footer() {
               />
             </Link>
             <p className="mt-4 text-sm text-white/60 font-display">
-              AI solutions for businesses that want to move fast.
+              AI voice and AI video for founders who want to show up everywhere without cloning themselves.
             </p>
             <div className="flex items-center space-x-4 mt-6">
               {socialLinks.map(social => (

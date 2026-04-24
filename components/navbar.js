@@ -6,9 +6,9 @@ import ThemeSwitch from "./themeSwitch";
 import { cx } from "@/utils/all";
 
 const navLinks = [
-  { label: "Voice Agents", href: "https://www.diabolai.com" },
-  { label: "AI Content", href: "https://www.diabolai.com" },
-  { label: "AI Avatars", href: "https://www.diabolai.com" },
+  { label: "AI Voice", href: "https://www.diabolai.com/ai-voice" },
+  { label: "AI Video", href: "https://www.diabolai.com/ai-content" },
+  { label: "FAQ", href: "https://www.diabolai.com/faq" },
   { label: "Blog", href: "/" },
 ];
 
@@ -73,7 +73,7 @@ export default function Navbar() {
         {/* Right side: CTA + theme toggle */}
         <div className="flex items-center space-x-3">
           <a
-            href="https://www.diabolai.com/book-a-call"
+            href="https://www.diabolai.com/"
             target="_blank"
             rel="noopener noreferrer"
             className="hidden sm:inline-flex bg-near-black text-white rounded-full px-5 py-2 text-sm font-display font-semibold hover:bg-orange transition-colors">
@@ -114,7 +114,7 @@ export default function Navbar() {
             </Link>
           ))}
           <a
-            href="https://www.diabolai.com/book-a-call"
+            href="https://www.diabolai.com/"
             target="_blank"
             rel="noopener noreferrer"
             className="sm:hidden inline-flex justify-center bg-near-black text-white rounded-full px-5 py-2 text-sm font-display font-semibold hover:bg-orange transition-colors">
