@@ -22,6 +22,10 @@ const jetbrains = JetBrains_Mono({
   weight: ["400", "500", "700"],
 });
 
+// Appended to every page title, e.g. "Why Voice AI Latency Matters | Diabol AI".
+// Kept short on purpose: Google truncates titles at roughly 60 characters.
+const SITE_NAME = "Diabol AI";
+
 async function sharedMetaData(params: any) {
   const settings = await getSettings();
   const siteUrl = process.env.SITE_URL || settings?.url || "http://localhost:3000";
@@ -30,16 +34,14 @@ async function sharedMetaData(params: any) {
     // enable this for resolving opengraph images
     metadataBase: new URL(siteUrl),
     title: {
-      default:
-        settings?.title ||
-        "Stablo Pro - Blog Template for Next.js & Sanity CMS",
-      template: "%s | Stablo"
+      default: settings?.title || "Diabol AI Blog",
+      template: `%s | ${SITE_NAME}`
     },
     description:
       settings?.description ||
-      "Pro version of Stablo, popular open-source next.js and sanity blog template",
+      "AI insights for ambitious founders. Tools, workflows and lessons learned, shared as I build.",
     keywords: ["AI", "artificial intelligence", "automation", "AI voice agents", "business automation", "AI tools for SMBs"],
-    authors: [{ name: "Surjith" }],
+    authors: [{ name: SITE_NAME }],
     canonical: settings?.url,
     openGraph: {
       images: [
@@ -53,7 +55,7 @@ async function sharedMetaData(params: any) {
       ]
     },
     twitter: {
-      title: settings?.title || "Stablo Template",
+      title: settings?.title || "Diabol AI Blog",
       card: "summary_large_image"
     },
     robots: {

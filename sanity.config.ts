@@ -21,7 +21,7 @@ export const PREVIEWABLE_DOCUMENT_TYPES: string[] = ["post"];
 
 export default defineConfig({
   name: "default",
-  title: "Stablo Template",
+  title: "Diabol AI Blog",
   basePath: "/studio",
   projectId: projectId,
   dataset: dataset,
