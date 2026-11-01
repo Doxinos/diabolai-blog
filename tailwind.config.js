@@ -28,7 +28,7 @@ module.exports = {
           background: '#0A2843'
         },
         gray: colors.neutral,
-        westar: '#B8B49F',
+        westar: '#E2DACB',
         oxford: '#0A2843',
         orange: {
           DEFAULT: '#FF4F30',
@@ -50,7 +50,7 @@ module.exports = {
         "9/16": "9 / 16"
       },
       // Light-mode prose text on Westar: body near-black/80, muted near-black/70.
-      // The default grays drop below 4.5:1 on #B8B49F. prose-invert (dark) is untouched.
+      // The default muted grays drop below 4.5:1 on #E2DACB. prose-invert (dark) is untouched.
       typography: {
         DEFAULT: {
           css: {
