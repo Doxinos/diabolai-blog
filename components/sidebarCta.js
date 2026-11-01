@@ -15,7 +15,7 @@ export default function SidebarCta({ headline, body, buttonText, buttonUrl, imag
       className={`rounded-lg overflow-hidden ${
         isPrimary
           ? "bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800"
-          : "bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
+          : "bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10"
       }`}
     >
       {imageProps && (
@@ -56,8 +56,8 @@ export default function SidebarCta({ headline, body, buttonText, buttonUrl, imag
           rel={buttonUrl.startsWith("http") ? "noopener noreferrer" : undefined}
           className={`mt-4 inline-block rounded-md px-4 py-2 text-sm font-medium transition-colors ${
             isPrimary
-              ? "bg-blue-600 text-white hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
-              : "bg-gray-700 text-white hover:bg-gray-800 dark:bg-gray-600 dark:hover:bg-gray-500"
+              ? "bg-blue-600 text-white hover:bg-blue-700"
+              : "bg-gray-700 text-white hover:bg-gray-800 dark:bg-white/10 dark:hover:bg-white/20"
           }`}
         >
           {buttonText} &rarr;

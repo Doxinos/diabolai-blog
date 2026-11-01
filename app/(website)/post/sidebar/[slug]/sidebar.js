@@ -150,13 +150,13 @@ export default function Post(props) {
             </div>
           )}
 
-          <div className="prose prose-lg mx-auto my-3 dark:prose-invert prose-a:text-oxford dark:prose-a:text-blue-500">
+          <div className="prose prose-lg mx-auto my-3 dark:prose-invert prose-a:text-oxford dark:prose-a:text-white">
             {post.body && <PortableText value={post.body} />}
           </div>
 
           {/* Sources / Citations */}
           {post.sources && post.sources.length > 0 && (
-            <div className="prose prose-lg mx-auto mt-10 border-t border-gray-200 pt-6 dark:border-gray-700 dark:prose-invert">
+            <div className="prose prose-lg mx-auto mt-10 border-t border-gray-200 pt-6 dark:border-white/10 dark:prose-invert">
               <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
                 Sources
               </h2>
@@ -167,7 +167,7 @@ export default function Post(props) {
                       href={source.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-oxford hover:underline dark:text-blue-400">
+                      className="text-oxford hover:underline dark:text-white">
                       {source.title}
                     </a>
                     {source.domain && (
@@ -185,7 +185,7 @@ export default function Post(props) {
           <div className="mb-7 mt-7 flex justify-center">
             <Link
               href="/"
-              className="bg-orange/10 rounded-full px-5 py-2 text-sm text-oxford dark:text-orange font-display font-semibold hover:bg-orange/20 transition-colors">
+              className="bg-orange/10 rounded-full px-5 py-2 text-sm text-oxford dark:text-white font-display font-semibold hover:bg-orange/20 transition-colors">
               ← View all posts
             </Link>
           </div>

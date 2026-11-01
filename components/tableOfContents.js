@@ -54,7 +54,7 @@ export default function TableOfContents({ body }) {
 
   return (
     <nav className="bg-white dark:bg-dark-background border border-near-black/10 dark:border-white/10 rounded-2xl p-6">
-      <h3 className="font-mono text-[10px] uppercase tracking-[0.18em] text-near-black/40 dark:text-white/40 mb-4">
+      <h3 className="font-mono text-[10px] uppercase tracking-[0.18em] text-near-black/40 dark:text-white/70 mb-4">
         In This Article
       </h3>
       <ul className="space-y-2 text-sm">

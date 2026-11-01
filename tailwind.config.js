@@ -25,7 +25,7 @@ module.exports = {
           950: "#1b1f5f"
         },
         dark: {
-          background: '#27292d'
+          background: '#0A2843'
         },
         gray: colors.neutral,
         westar: '#B8B49F',

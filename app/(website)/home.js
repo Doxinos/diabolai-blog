@@ -6,7 +6,7 @@ export default function Post({ posts }) {
     <>
       <Container large={true}>
         <div className="pt-16 pb-12 px-8 xl:px-5">
-          <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-near-black/70 dark:text-white/40 mb-4">
+          <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-near-black/70 dark:text-white/70 mb-4">
             — Diabol AI
           </p>
           <h1 className="font-display font-black text-[clamp(80px,12vw,140px)] leading-[0.88] tracking-tight">
