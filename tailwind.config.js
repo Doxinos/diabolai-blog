@@ -25,10 +25,10 @@ module.exports = {
           950: "#1b1f5f"
         },
         dark: {
-          background: '#27292d'
+          background: '#0A2843'
         },
         gray: colors.neutral,
-        westar: '#DCDBD3',
+        westar: '#E2DACB',
         oxford: '#0A2843',
         orange: {
           DEFAULT: '#FF4F30',
@@ -48,6 +48,18 @@ module.exports = {
         "3/2": "3 / 2",
         "2/3": "2 / 3",
         "9/16": "9 / 16"
+      },
+      // Light-mode prose text on Westar: body near-black/80, muted near-black/70.
+      // The default muted grays drop below 4.5:1 on #E2DACB. prose-invert (dark) is untouched.
+      typography: {
+        DEFAULT: {
+          css: {
+            "--tw-prose-body": "rgb(17 17 17 / 0.8)",
+            "--tw-prose-counters": "rgb(17 17 17 / 0.7)",
+            "--tw-prose-bullets": "rgb(17 17 17 / 0.7)",
+            "--tw-prose-captions": "rgb(17 17 17 / 0.7)"
+          }
+        }
       }
     }
   },

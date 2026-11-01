@@ -91,14 +91,14 @@ function RelatedPosts({ related, pathPrefix }) {
                       className="object-cover"
                     />
                   ) : (
-                    <div className="h-full w-full bg-gray-200 dark:bg-gray-700" />
+                    <div className="h-full w-full bg-gray-200 dark:bg-white/10" />
                   )}
                 </div>
                 <div>
                   <h3 className="font-medium dark:text-white">
                     {item.title}
                   </h3>
-                  <p className="mt-2 text-sm text-gray-500">
+                  <p className="mt-2 text-sm text-near-black/70 dark:text-white/70">
                     <DateTime date={item.date} />
                   </p>
                 </div>

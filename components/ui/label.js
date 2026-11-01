@@ -7,7 +7,7 @@ export default function Label(props) {
     return (
       <div
         className={
-          "inline-flex items-center justify-center font-bold px-2 h-6 text-sm bg-orange/10 text-orange rounded-full shrink-0 dark:bg-orange/10 dark:text-orange"
+          "inline-flex items-center justify-center font-bold px-2 h-6 text-sm bg-orange/10 text-oxford rounded-full shrink-0 dark:bg-orange/10 dark:text-white"
         }>
         {props.children}
       </div>

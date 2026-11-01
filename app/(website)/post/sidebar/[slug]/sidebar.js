@@ -128,7 +128,7 @@ export default function Post(props) {
           {/* Direct Answer for AI/SEO */}
           {post.directAnswer && (
             <div className="prose prose-lg mx-auto mb-6 dark:prose-invert">
-              <p className="text-gray-700 dark:text-gray-300 italic">
+              <p className="text-near-black/80 dark:text-gray-300 italic">
                 {post.directAnswer}
               </p>
             </div>
@@ -142,7 +142,7 @@ export default function Post(props) {
               </h2>
               <ul className="mb-0 list-disc space-y-1 pl-5">
                 {post.tldr.map((item, index) => (
-                  <li key={index} className="text-gray-700 dark:text-gray-300">
+                  <li key={index} className="text-near-black/80 dark:text-gray-300">
                     {item}
                   </li>
                 ))}
@@ -150,28 +150,28 @@ export default function Post(props) {
             </div>
           )}
 
-          <div className="prose prose-lg mx-auto my-3 dark:prose-invert prose-a:text-blue-500">
+          <div className="prose prose-lg mx-auto my-3 dark:prose-invert prose-a:text-oxford dark:prose-a:text-white">
             {post.body && <PortableText value={post.body} />}
           </div>
 
           {/* Sources / Citations */}
           {post.sources && post.sources.length > 0 && (
-            <div className="prose prose-lg mx-auto mt-10 border-t border-gray-200 pt-6 dark:border-gray-700 dark:prose-invert">
+            <div className="prose prose-lg mx-auto mt-10 border-t border-gray-200 pt-6 dark:border-white/10 dark:prose-invert">
               <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
                 Sources
               </h2>
               <ul className="list-disc space-y-1 pl-5">
                 {post.sources.map((source, index) => (
-                  <li key={index} className="text-gray-700 dark:text-gray-300">
+                  <li key={index} className="text-near-black/80 dark:text-gray-300">
                     <a
                       href={source.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-600 hover:underline dark:text-blue-400">
+                      className="text-oxford hover:underline dark:text-white">
                       {source.title}
                     </a>
                     {source.domain && (
-                      <span className="text-gray-500 dark:text-gray-400">
+                      <span className="text-near-black/70 dark:text-gray-400">
                         {" "}
                         — {source.domain}
                       </span>
@@ -185,7 +185,7 @@ export default function Post(props) {
           <div className="mb-7 mt-7 flex justify-center">
             <Link
               href="/"
-              className="bg-orange/10 rounded-full px-5 py-2 text-sm text-orange font-display font-semibold hover:bg-orange/20 transition-colors">
+              className="bg-orange/10 rounded-full px-5 py-2 text-sm text-oxford dark:text-white font-display font-semibold hover:bg-orange/20 transition-colors">
               ← View all posts
             </Link>
           </div>

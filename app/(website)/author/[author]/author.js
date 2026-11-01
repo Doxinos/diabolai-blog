@@ -32,7 +32,7 @@ export default function Author(props) {
           <h1 className="text-brand-primary mt-2 text-3xl font-semibold tracking-tight dark:text-white lg:text-3xl lg:leading-tight">
             {author.name}
           </h1>
-          <div className="mx-auto mt-2 flex max-w-xl flex-col px-5 text-center text-gray-500">
+          <div className="mx-auto mt-2 flex max-w-xl flex-col px-5 text-center text-near-black/80 dark:text-white/70">
             {author.bio && <PortableText value={author.bio} />}
           </div>
         </div>
