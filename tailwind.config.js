@@ -25,19 +25,21 @@ module.exports = {
           950: "#1b1f5f"
         },
         dark: {
-          background: '#0A2843'
+          background: '#0E1E2E'
         },
         gray: colors.neutral,
         westar: '#E2DACB',
-        oxford: '#0A2843',
-        orange: {
-          DEFAULT: '#FF4F30',
-          dark: '#E64528',
+        // Brand refresh 13 Nov 2026: Ink replaces Oxford, Berry replaces orange.
+        // Berry is a touch on the web (edge, dot, arrow, focus ring), never a fill or small text.
+        ink: '#0E1E2E',
+        berry: {
+          DEFAULT: '#C2457A',
+          dark: '#A8386A',
         },
-        'near-black': '#111111',
       },
       fontFamily: {
-        display: ['var(--font-inter)', ...defaultTheme.fontFamily.sans],
+        display: ['var(--font-archivo)', ...defaultTheme.fontFamily.sans],
+        sans: ['var(--font-archivo)', ...defaultTheme.fontFamily.sans],
         mono: ['var(--font-jetbrains)', ...defaultTheme.fontFamily.mono],
       },
       boxShadow: {
@@ -49,15 +51,15 @@ module.exports = {
         "2/3": "2 / 3",
         "9/16": "9 / 16"
       },
-      // Light-mode prose text on Westar: body near-black/80, muted near-black/70.
+      // Light-mode prose text on Westar: body ink/80, muted ink/70.
       // The default muted grays drop below 4.5:1 on #E2DACB. prose-invert (dark) is untouched.
       typography: {
         DEFAULT: {
           css: {
-            "--tw-prose-body": "rgb(17 17 17 / 0.8)",
-            "--tw-prose-counters": "rgb(17 17 17 / 0.7)",
-            "--tw-prose-bullets": "rgb(17 17 17 / 0.7)",
-            "--tw-prose-captions": "rgb(17 17 17 / 0.7)"
+            "--tw-prose-body": "rgb(14 30 46 / 0.8)",
+            "--tw-prose-counters": "rgb(14 30 46 / 0.7)",
+            "--tw-prose-bullets": "rgb(14 30 46 / 0.7)",
+            "--tw-prose-captions": "rgb(14 30 46 / 0.7)"
           }
         }
       }

@@ -53,8 +53,8 @@ export default function TableOfContents({ body }) {
   if (headings.length === 0) return null;
 
   return (
-    <nav className="bg-white dark:bg-dark-background border border-near-black/10 dark:border-white/10 rounded-2xl p-6">
-      <h3 className="font-mono text-[10px] uppercase tracking-[0.18em] text-near-black/40 dark:text-white/70 mb-4">
+    <nav className="bg-white dark:bg-dark-background border border-ink/10 dark:border-white/10 rounded-2xl p-6">
+      <h3 className="font-mono text-[10px] uppercase tracking-[0.18em] text-ink/40 dark:text-white/70 mb-4">
         In This Article
       </h3>
       <ul className="space-y-2 text-sm">
@@ -67,10 +67,10 @@ export default function TableOfContents({ body }) {
               href={`#${heading.id}`}
               className={`block py-1 transition-colors ${
                 activeId === heading.id
-                  ? "text-orange font-semibold border-l-2 border-orange pl-3"
+                  ? "text-ink font-semibold border-l-2 border-berry pl-3 dark:text-white"
                   : heading.level === 3
-                    ? "text-near-black/50 dark:text-white/50 hover:text-near-black dark:hover:text-white"
-                    : "text-near-black/70 dark:text-white/70 hover:text-near-black dark:hover:text-white"
+                    ? "text-ink/50 dark:text-white/50 hover:text-ink dark:hover:text-white"
+                    : "text-ink/70 dark:text-white/70 hover:text-ink dark:hover:text-white"
               }`}
               onClick={e => {
                 e.preventDefault();

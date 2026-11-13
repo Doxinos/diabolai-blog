@@ -17,12 +17,12 @@ export default async function Search({ searchParams }) {
     <>
       {!query && (
         <div className="flex h-40 items-center justify-center">
-          <span className="text-lg text-near-black/70 dark:text-white/70">¯\_(ツ)_/¯</span>
+          <span className="text-lg text-ink/70 dark:text-white/70">¯\_(ツ)_/¯</span>
         </div>
       )}
       {query && posts?.length === 0 && (
         <div className="flex h-40 items-center justify-center">
-          <span className="text-lg text-near-black/70 dark:text-white/70">
+          <span className="text-lg text-ink/70 dark:text-white/70">
             No posts found for {query}. Try again!
           </span>
         </div>
@@ -30,7 +30,7 @@ export default async function Search({ searchParams }) {
       {query && !posts && (
         <div className="flex h-40 items-center justify-center">
           <svg
-            className="h-6 w-6 animate-spin text-near-black/70 dark:text-white/70"
+            className="h-6 w-6 animate-spin text-ink/70 dark:text-white/70"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24">

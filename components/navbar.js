@@ -30,8 +30,8 @@ export default function Navbar() {
         "rounded-full px-6 py-3",
         "border transition-all duration-300",
         scrolled
-          ? "bg-westar/80 backdrop-blur-md border-near-black/10 dark:bg-oxford/80 dark:border-white/10"
-          : "bg-westar border-near-black/10 dark:bg-oxford dark:border-white/10"
+          ? "bg-westar/80 backdrop-blur-md border-ink/10 dark:bg-ink/80 dark:border-white/10"
+          : "bg-westar border-ink/10 dark:bg-ink dark:border-white/10"
       )}>
       <div className="flex items-center justify-between">
         {/* Logo */}
@@ -64,7 +64,7 @@ export default function Navbar() {
                 target: "_blank",
                 rel: "noopener noreferrer",
               })}
-              className="text-sm font-display font-medium text-near-black/70 hover:text-near-black dark:text-white/70 dark:hover:text-white transition-colors">
+              className="text-sm font-display font-medium text-ink/70 hover:text-ink dark:text-white/70 dark:hover:text-white transition-colors">
               {link.label}
             </Link>
           ))}
@@ -76,14 +76,14 @@ export default function Navbar() {
             href="https://www.diabolai.com/"
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden sm:inline-flex bg-near-black text-white rounded-full px-5 py-2 text-sm font-display font-semibold hover:bg-orange transition-colors">
+            className="hidden sm:inline-flex btn-primary bg-ink text-westar rounded-full px-5 py-2 text-sm font-display font-semibold transition-transform dark:bg-westar dark:text-ink">
             Book a Call
           </a>
           <ThemeSwitch />
 
           {/* Mobile hamburger */}
           <button
-            className="md:hidden p-1 text-near-black dark:text-white"
+            className="md:hidden p-1 text-ink dark:text-white"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle menu">
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -109,7 +109,7 @@ export default function Navbar() {
                 rel: "noopener noreferrer",
               })}
               onClick={() => setMobileOpen(false)}
-              className="text-sm font-display font-medium text-near-black/70 dark:text-white/70 hover:text-near-black dark:hover:text-white transition-colors">
+              className="text-sm font-display font-medium text-ink/70 dark:text-white/70 hover:text-ink dark:hover:text-white transition-colors">
               {link.label}
             </Link>
           ))}
@@ -117,7 +117,7 @@ export default function Navbar() {
             href="https://www.diabolai.com/"
             target="_blank"
             rel="noopener noreferrer"
-            className="sm:hidden inline-flex justify-center bg-near-black text-white rounded-full px-5 py-2 text-sm font-display font-semibold hover:bg-orange transition-colors">
+            className="sm:hidden inline-flex justify-center btn-primary bg-ink text-westar rounded-full px-5 py-2 text-sm font-display font-semibold transition-transform dark:bg-westar dark:text-ink">
             Book a Call
           </a>
         </div>

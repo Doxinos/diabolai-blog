@@ -1,7 +1,7 @@
 import "@/styles/tailwind.css";
 import { Providers } from "./providers";
 import { cx } from "@/utils/all";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { Archivo, JetBrains_Mono } from "next/font/google";
 import { getSettings } from "@/lib/sanity/client";
 import Footer from "@/components/footer";
 import GetNavbar from "@/components/getnavbar";
@@ -10,10 +10,12 @@ import Script from "next/script";
 
 const GA_MEASUREMENT_ID = "G-WLJQP76D6X";
 
-const inter = Inter({
+// Archivo is the one text family (brand refresh, 13 Nov 2026): wdth 100 for body,
+// wdth 75 (Archivo Condensed) for titles. Variable font, so weight and width axes are both live.
+const archivo = Archivo({
   subsets: ["latin"],
-  variable: "--font-inter",
-  weight: ["400", "600", "700", "800", "900"],
+  variable: "--font-archivo",
+  axes: ["wdth"],
 });
 
 const jetbrains = JetBrains_Mono({
@@ -79,7 +81,7 @@ export default async function Layout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={cx(inter.variable, jetbrains.variable)}>
+      className={cx(archivo.variable, jetbrains.variable)}>
       <head>
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
@@ -94,7 +96,7 @@ export default async function Layout({
           `}
         </Script>
       </head>
-      <body className="font-display text-near-black antialiased bg-westar dark:bg-dark-background dark:text-gray-400">
+      <body className="font-display text-ink antialiased bg-westar dark:bg-dark-background dark:text-gray-400">
         <Providers>
           <GetNavbar {...settings} />
           <main className="pt-24">{children}</main>

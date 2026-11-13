@@ -50,7 +50,7 @@ const socialLinks = [
 
 export default function Footer() {
   return (
-    <footer className="bg-oxford dark:border-t dark:border-white/10">
+    <footer className="bg-ink dark:border-t dark:border-white/10">
       <div className="max-w-screen-xl mx-auto px-8 py-16">
         <div className="grid md:grid-cols-4 gap-8">
           {/* Brand column */}
@@ -73,7 +73,7 @@ export default function Footer() {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-white/40 hover:text-orange transition-colors"
+                  className="text-white/40 hover:text-white transition-colors"
                   aria-label={social.label}>
                   {social.icon}
                 </a>
@@ -96,7 +96,7 @@ export default function Footer() {
                         target: "_blank",
                         rel: "noopener noreferrer",
                       })}
-                      className="text-white/70 text-sm font-display hover:text-orange transition-colors">
+                      className="text-white/70 text-sm font-display hover:text-white transition-colors">
                       {link.label}
                     </Link>
                   </li>

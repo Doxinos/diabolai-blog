@@ -98,7 +98,7 @@ function RelatedPosts({ related, pathPrefix }) {
                   <h3 className="font-medium dark:text-white">
                     {item.title}
                   </h3>
-                  <p className="mt-2 text-sm text-near-black/70 dark:text-white/70">
+                  <p className="mt-2 text-sm text-ink/70 dark:text-white/70">
                     <DateTime date={item.date} />
                   </p>
                 </div>

@@ -9,3 +9,19 @@
     @apply bg-dark-background;
   }
 }
+
+/* Brand refresh, 13 Nov 2026 (system/skills/diabol/diabol-brand-design.md). */
+@layer base {
+  /* Titles are Archivo Condensed: the same variable family at width 75. */
+  h1, h2 { font-variation-settings: "wdth" 75; }
+  ::selection { background: #C2457A; color: #fff; }
+  :focus-visible { outline: 2px solid #C2457A; outline-offset: 3px; }
+}
+
+@layer components {
+  /* The one primary button: Ink on Westar (Westar on Ink in dark mode).
+     Berry is a touch on it, never its fill. The touch itself is set below. */
+  .btn-primary { align-items: center; gap: 8px; }
+  @media (hover: hover) and (pointer: fine) { .btn-primary:hover { transform: translateY(-1px); } }
+  .btn-primary:active { transform: scale(.98); }
+}

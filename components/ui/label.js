@@ -7,7 +7,7 @@ export default function Label(props) {
     return (
       <div
         className={
-          "inline-flex items-center justify-center font-bold px-2 h-6 text-sm bg-orange/10 text-oxford rounded-full shrink-0 dark:bg-orange/10 dark:text-white"
+          "inline-flex items-center justify-center font-bold px-2 h-6 text-sm bg-ink/5 text-ink rounded-full shrink-0 dark:bg-white/10 dark:text-white"
         }>
         {props.children}
       </div>
@@ -17,7 +17,7 @@ export default function Label(props) {
   return (
     <span
       className={cx(
-        "inline-block font-mono text-[10px] tracking-[0.18em] uppercase text-orange dark:text-orange",
+        "inline-block font-mono text-[10px] tracking-[0.18em] uppercase text-ink/70 dark:text-white/70",
         !margin && " mt-5"
       )}>
       {props.children}
