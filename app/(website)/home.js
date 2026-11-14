@@ -12,7 +12,7 @@ export default function Post({ posts }) {
           <h1 className="font-display font-black text-[clamp(80px,12vw,140px)] leading-[0.88] tracking-tight">
             <span className="text-ink dark:text-white">The</span>
             <br />
-            <span className="text-ink dark:text-berry">blog.</span>
+            <span className="text-ink dark:text-saffron">blog.</span>
           </h1>
         </div>
       </Container>

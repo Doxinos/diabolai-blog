@@ -29,12 +29,12 @@ module.exports = {
         },
         gray: colors.neutral,
         westar: '#E2DACB',
-        // Brand refresh 13 Nov 2026: Ink replaces Oxford, Berry replaces orange.
-        // Berry is a touch on the web (edge, dot, arrow, focus ring), never a fill or small text.
+        // Brand refresh: Ink replaces Oxford (13 Nov 2026); Vogue saffron is the accent (14 Nov, replaced berry).
+        // Saffron is a touch on the web, never a fill, and only on Ink (5.6:1). On Westar it is 2.2:1: no saffron text, rule or ring there.
         ink: '#0E1E2E',
-        berry: {
-          DEFAULT: '#C2457A',
-          dark: '#A8386A',
+        saffron: {
+          DEFAULT: '#EE7001',
+          dark: '#D36F17',
         },
       },
       fontFamily: {

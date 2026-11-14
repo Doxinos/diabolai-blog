@@ -10,17 +10,19 @@
   }
 }
 
-/* Brand refresh, 13 Nov 2026 (system/skills/diabol/diabol-brand-design.md). */
+/* Brand refresh, 13-14 Nov 2026 (system/skills/diabol/diabol-brand-design.md). */
 @layer base {
   /* Titles are Archivo Condensed: the same variable family at width 75. */
   h1, h2 { font-variation-settings: "wdth" 75; }
-  ::selection { background: #C2457A; color: #fff; }
-  :focus-visible { outline: 2px solid #C2457A; outline-offset: 3px; }
+  ::selection { background: #EE7001; color: #0E1E2E; }
+  /* Ink ring on Westar; saffron only where the ring sits on Ink (dark mode, footer). */
+  :focus-visible { outline: 2px solid #0E1E2E; outline-offset: 3px; }
+  .dark :focus-visible, footer :focus-visible { outline-color: #EE7001; }
 }
 
 @layer components {
   /* The one primary button: Ink on Westar (Westar on Ink in dark mode).
-     Berry is a touch on it, never its fill. The touch itself is set below. */
+     The accent is a touch, never its fill, and only on Ink. */
   .btn-primary { align-items: center; gap: 8px; }
   @media (hover: hover) and (pointer: fine) { .btn-primary:hover { transform: translateY(-1px); } }
   .btn-primary:active { transform: scale(.98); }
