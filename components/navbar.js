@@ -76,7 +76,7 @@ export default function Navbar() {
             href="https://www.diabolai.com/"
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden sm:inline-flex btn-primary bg-ink text-westar rounded-full px-5 py-2 text-sm font-display font-semibold transition-transform dark:bg-westar dark:text-ink">
+            className="hidden sm:inline-flex btn-primary bg-ink text-westar rounded-full px-5 py-2 text-sm font-display font-semibold transition dark:bg-westar dark:text-ink">
             Book a Call
           </a>
           <ThemeSwitch />
@@ -117,7 +117,7 @@ export default function Navbar() {
             href="https://www.diabolai.com/"
             target="_blank"
             rel="noopener noreferrer"
-            className="sm:hidden inline-flex justify-center btn-primary bg-ink text-westar rounded-full px-5 py-2 text-sm font-display font-semibold transition-transform dark:bg-westar dark:text-ink">
+            className="sm:hidden inline-flex justify-center btn-primary bg-ink text-westar rounded-full px-5 py-2 text-sm font-display font-semibold transition dark:bg-westar dark:text-ink">
             Book a Call
           </a>
         </div>

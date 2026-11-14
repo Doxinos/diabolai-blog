@@ -26,4 +26,14 @@
   .btn-primary { align-items: center; gap: 8px; }
   @media (hover: hover) and (pointer: fine) { .btn-primary:hover { transform: translateY(-1px); } }
   .btn-primary:active { transform: scale(.98); }
+  /* Ember ring (Peter, 15 Nov). Light: the Ink button carries the ring inside its own fill, so saffron sits on Ink.
+     Dark: the Westar button gets the ring outside, past a 2px Ink gap. */
+  .btn-primary { box-shadow: inset 0 0 0 2.5px #0E1E2E, inset 0 0 0 4px #EE7001; }
+  .dark .btn-primary { box-shadow: 0 0 0 2px #0E1E2E, 0 0 0 3.5px #EE7001; }
+  @media (hover: hover) and (pointer: fine) {
+    .btn-primary:hover { box-shadow: inset 0 0 0 2.5px #0E1E2E, inset 0 0 0 4.5px #D36F17; }
+    .dark .btn-primary:hover { box-shadow: 0 0 0 2.5px #0E1E2E, 0 0 0 4.5px #D36F17; }
+  }
+  /* In dark mode focus is a Westar outline outside the ring, so it never reads as the resting ring. */
+  .dark .btn-primary:focus-visible { outline: 2px solid #E2DACB; outline-offset: 7px; }
 }
