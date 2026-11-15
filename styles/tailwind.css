@@ -23,11 +23,11 @@
 @layer components {
   /* The one primary button. Light mode: a plain Ink pill on the Westar nav, no saffron (saffron is 2.2:1 on Westar).
      Dark mode: the saffron glass button (Peter, 15 Nov, "Glass, Ink label"), the one place saffron fills, only on Ink.
-     Its label is Ink (5.6:1 on saffron); never white. */
+     Its label is white with a soft shadow (Peter, 15 Nov, option C): a deliberate exception, 3.0:1 where Ink would be 5.6:1. */
   .btn-primary { align-items: center; gap: 8px; }
   @media (hover: hover) and (pointer: fine) { .btn-primary:hover { transform: translateY(-1px); } }
   .btn-primary:active { transform: scale(.98); }
-  .dark .btn-primary { position: relative; isolation: isolate; overflow: hidden; color: #0E1E2E;
+  .dark .btn-primary { position: relative; isolation: isolate; overflow: hidden; color: #fff; text-shadow: 0 1px 1.5px rgba(80,30,0,.55);
     background: linear-gradient(180deg, rgba(255,255,255,.22), rgba(255,255,255,.03) 55%, rgba(0,0,0,.12)), rgb(238,112,1);
     box-shadow: inset 0 2px 0 rgba(255,255,255,.5), inset 0 -2px 2px rgba(0,0,0,.25), inset 0 0 0 1.5px rgba(255,255,255,.16), 0 18px 40px -16px rgba(238,112,1,.5); }
   .dark .btn-primary::before { content: ""; position: absolute; inset: -40%; z-index: -1; opacity: .6; mix-blend-mode: screen; filter: blur(14px); pointer-events: none;
