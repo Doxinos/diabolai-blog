@@ -16,7 +16,7 @@ export default function PostList({
     : null;
 
   return (
-    <div className="group cursor-pointer transition-all duration-500 ease-in-out hover:-translate-y-1 hover:shadow-lifted aspect-square">
+    <div className="group cursor-pointer transition-[transform,box-shadow] duration-200 ease-out [@media(hover:hover)]:hover:-translate-y-1 [@media(hover:hover)]:hover:shadow-lifted motion-reduce:transition-none motion-reduce:hover:translate-y-0 aspect-square">
       <div className="h-full rounded-md bg-white p-4 dark:bg-dark-background flex flex-col">
         <div
           className={cx(

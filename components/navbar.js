@@ -17,8 +17,10 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
+    // Passive and cheap: React skips the render when the value is unchanged.
     const handleScroll = () => setScrolled(window.scrollY > 10);
-    window.addEventListener("scroll", handleScroll);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -28,7 +30,7 @@ export default function Navbar() {
         "fixed top-6 left-1/2 -translate-x-1/2 z-50",
         "max-w-5xl w-[calc(100%-2rem)]",
         "rounded-full px-6 py-3",
-        "border transition-all duration-300",
+        "border transition-[background-color,border-color] duration-200 ease-out",
         scrolled
           ? "bg-westar/80 backdrop-blur-md border-ink/10 dark:bg-ink/80 dark:border-white/10"
           : "bg-westar border-ink/10 dark:bg-ink dark:border-white/10"

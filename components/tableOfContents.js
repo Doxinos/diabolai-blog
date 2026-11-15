@@ -67,7 +67,7 @@ export default function TableOfContents({ body }) {
               href={`#${heading.id}`}
               className={`block py-1 transition-colors ${
                 activeId === heading.id
-                  ? "text-ink font-semibold border-l-2 border-ink pl-3 dark:text-white dark:border-saffron"
+                  ? "text-ink font-semibold border-l-2 border-ink pl-3 dark:text-white dark:border-westar"
                   : heading.level === 3
                     ? "text-ink/50 dark:text-white/50 hover:text-ink dark:hover:text-white"
                     : "text-ink/70 dark:text-white/70 hover:text-ink dark:hover:text-white"

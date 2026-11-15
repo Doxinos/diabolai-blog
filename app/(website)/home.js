@@ -7,12 +7,12 @@ export default function Post({ posts }) {
       <Container large={true}>
         <div className="pt-16 pb-12 px-8 xl:px-5">
           <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-ink/70 dark:text-white/70 mb-4">
-            — Diabol AI
+            Diabol AI
           </p>
           <h1 className="font-display font-black text-[clamp(80px,12vw,140px)] leading-[0.88] tracking-tight">
             <span className="text-ink dark:text-white">The</span>
             <br />
-            <span className="text-ink dark:text-saffron">blog.</span>
+            <span className="text-ink dark:text-westar">blog.</span>
           </h1>
         </div>
       </Container>

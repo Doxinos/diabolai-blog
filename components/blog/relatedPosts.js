@@ -36,7 +36,7 @@ function RelatedPostCard({ post }) {
               alt={post.image?.alt || post.title}
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              className="object-cover transition-transform duration-300 group-hover:scale-105"
+              className="object-cover transition-transform duration-300 ease-out group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
               placeholder={post.image?.blurDataURL ? "blur" : "empty"}
               blurDataURL={post.image?.blurDataURL}
             />
