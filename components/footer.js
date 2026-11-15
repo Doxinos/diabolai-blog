@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "next/image";
+import Wordmark from "./wordmark";
 
 const footerLinks = {
   Services: [
@@ -56,12 +56,8 @@ export default function Footer() {
           {/* Brand column */}
           <div>
             <Link href="https://www.diabolai.com">
-              <Image
-                src="/img/diabol-logo-white.png"
-                width={130}
-                height={26}
-                alt="Diabol AI"
-              />
+              <span className="sr-only">Diabol AI</span>
+              <Wordmark className="block w-[130px] h-auto text-white" />
             </Link>
             <p className="mt-4 text-sm text-white/60 font-display">
               AI voice and AI video for founders who want to show up everywhere without cloning themselves.

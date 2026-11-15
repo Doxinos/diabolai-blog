@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
+import Wordmark from "./wordmark";
 import ThemeSwitch from "./themeSwitch";
 import { cx } from "@/utils/all";
 
@@ -38,22 +38,8 @@ export default function Navbar() {
       <div className="flex items-center justify-between">
         {/* Logo */}
         <Link href="https://www.diabolai.com" className="shrink-0">
-          <Image
-            src="/img/diabol-logo-black.png"
-            width={130}
-            height={26}
-            alt="Diabol AI"
-            priority
-            className="dark:hidden"
-          />
-          <Image
-            src="/img/diabol-logo-white.png"
-            width={130}
-            height={26}
-            alt="Diabol AI"
-            priority
-            className="hidden dark:block"
-          />
+          <span className="sr-only">Diabol AI</span>
+          <Wordmark className="block w-[130px] h-auto text-ink dark:text-white" />
         </Link>
 
         {/* Desktop nav links */}
