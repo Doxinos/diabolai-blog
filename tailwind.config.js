@@ -30,7 +30,7 @@ module.exports = {
         gray: colors.neutral,
         westar: '#E2DACB',
         // Brand refresh: Ink replaces Oxford (13 Nov 2026); Vogue saffron is the accent (14 Nov, replaced berry).
-        // Saffron is a touch on the web, never a fill, and only on Ink (5.6:1). On Westar it is 2.2:1: no saffron text, rule or ring there.
+        // Saffron lives only on Ink (5.6:1); on Westar it is 2.2:1, so no saffron text, rule or fill there. Its one fill is the dark-mode glass button (15 Nov).
         ink: '#0E1E2E',
         saffron: {
           DEFAULT: '#EE7001',

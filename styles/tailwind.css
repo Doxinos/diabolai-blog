@@ -21,19 +21,25 @@
 }
 
 @layer components {
-  /* The one primary button: Ink on Westar (Westar on Ink in dark mode).
-     The accent is a touch, never its fill, and only on Ink. */
+  /* The one primary button. Light mode: a plain Ink pill on the Westar nav, no saffron (saffron is 2.2:1 on Westar).
+     Dark mode: the saffron glass button (Peter, 15 Nov, "Glass, Ink label"), the one place saffron fills, only on Ink.
+     Its label is Ink (5.6:1 on saffron); never white. */
   .btn-primary { align-items: center; gap: 8px; }
   @media (hover: hover) and (pointer: fine) { .btn-primary:hover { transform: translateY(-1px); } }
   .btn-primary:active { transform: scale(.98); }
-  /* Ember ring (Peter, 15 Nov). Light: the Ink button carries the ring inside its own fill, so saffron sits on Ink.
-     Dark: the Westar button gets the ring outside, past a 2px Ink gap. */
-  .btn-primary { box-shadow: inset 0 0 0 2.5px #0E1E2E, inset 0 0 0 4px #EE7001; }
-  .dark .btn-primary { box-shadow: 0 0 0 2px #0E1E2E, 0 0 0 3.5px #EE7001; }
+  .dark .btn-primary { position: relative; isolation: isolate; overflow: hidden; color: #0E1E2E;
+    background: linear-gradient(180deg, rgba(255,255,255,.22), rgba(255,255,255,.03) 55%, rgba(0,0,0,.12)), rgb(238,112,1);
+    box-shadow: inset 0 2px 0 rgba(255,255,255,.5), inset 0 -2px 2px rgba(0,0,0,.25), inset 0 0 0 1.5px rgba(255,255,255,.16), 0 18px 40px -16px rgba(238,112,1,.5); }
+  .dark .btn-primary::before { content: ""; position: absolute; inset: -40%; z-index: -1; opacity: .6; mix-blend-mode: screen; filter: blur(14px); pointer-events: none;
+    background: radial-gradient(40% 18% at 20% 60%, rgba(214,120,48,.9), transparent 70%), radial-gradient(30% 14% at 60% 45%, rgba(240,150,60,.8), transparent 70%), radial-gradient(35% 16% at 85% 65%, rgba(200,96,40,.85), transparent 70%);
+    animation: glass-drift 9s ease-in-out infinite alternate; }
+  .dark .btn-primary::after { content: ""; position: absolute; left: 8%; right: 8%; top: 3px; height: 45%; border-radius: 999px; z-index: -1; pointer-events: none;
+    background: linear-gradient(180deg, rgba(255,255,255,.35), rgba(255,255,255,0)); }
+  @keyframes glass-drift { from { transform: translateX(-6%); } to { transform: translateX(6%); } }
   @media (hover: hover) and (pointer: fine) {
-    .btn-primary:hover { box-shadow: inset 0 0 0 2.5px #0E1E2E, inset 0 0 0 4.5px #D36F17; }
-    .dark .btn-primary:hover { box-shadow: 0 0 0 2.5px #0E1E2E, 0 0 0 4.5px #D36F17; }
+    .dark .btn-primary:hover { transform: translateY(-2px); box-shadow: inset 0 2px 0 rgba(255,255,255,.5), inset 0 -2px 2px rgba(0,0,0,.25), inset 0 0 0 1.5px rgba(255,255,255,.16), 0 22px 44px -16px rgba(238,112,1,.6); }
   }
-  /* In dark mode focus is a Westar outline outside the ring, so it never reads as the resting ring. */
-  .dark .btn-primary:focus-visible { outline: 2px solid #E2DACB; outline-offset: 7px; }
+  @media (prefers-reduced-motion: reduce) { .dark .btn-primary::before { animation: none; } .btn-primary:hover, .btn-primary:active { transform: none; } }
+  /* Focus on the glass is a Westar outline outside the button. */
+  .dark .btn-primary:focus-visible { outline: 2px solid #E2DACB; outline-offset: 3px; }
 }
