@@ -2,14 +2,12 @@ import Link from "next/link";
 import Wordmark from "./wordmark";
 
 const footerLinks = {
-  Services: [
-    { label: "AI Voice", href: "https://www.diabolai.com/ai-voice" },
-    { label: "AI Video", href: "https://www.diabolai.com/ai-content" },
-  ],
-  Resources: [
-    { label: "Home", href: "https://www.diabolai.com/" },
-    { label: "FAQ", href: "https://www.diabolai.com/faq" },
-    { label: "Book a Call", href: "https://www.diabolai.com/" },
+  Diabol: [
+    { label: "Home", href: "https://diabolai.com/" },
+    { label: "Newsletter", href: "https://diabolai.com/blog" },
+    { label: "Workshop", href: "https://diabolai.com/workshop" },
+    { label: "About", href: "https://diabolai.com/about" },
+    { label: "Privacy", href: "https://diabolai.com/privacy" },
   ],
   Blog: [
     { label: "All Posts", href: "/" },

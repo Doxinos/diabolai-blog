@@ -6,9 +6,9 @@ import ThemeSwitch from "./themeSwitch";
 import { cx } from "@/utils/all";
 
 const navLinks = [
-  { label: "AI Voice", href: "https://www.diabolai.com/ai-voice" },
-  { label: "AI Video", href: "https://www.diabolai.com/ai-content" },
-  { label: "FAQ", href: "https://www.diabolai.com/faq" },
+  { label: "Newsletter", href: "https://diabolai.com/blog" },
+  { label: "Workshop", href: "https://diabolai.com/workshop" },
+  { label: "About", href: "https://diabolai.com/about" },
   { label: "Blog", href: "/" },
 ];
 
@@ -37,7 +37,7 @@ export default function Navbar() {
       )}>
       <div className="flex items-center justify-between">
         {/* Logo */}
-        <Link href="https://www.diabolai.com" className="shrink-0">
+        <Link href="https://diabolai.com" className="shrink-0">
           <span className="sr-only">Diabol AI</span>
           <Wordmark className="block w-[130px] h-auto text-ink dark:text-white" />
         </Link>
@@ -61,7 +61,7 @@ export default function Navbar() {
         {/* Right side: CTA + theme toggle */}
         <div className="flex items-center space-x-3">
           <a
-            href="https://www.diabolai.com/"
+            href="https://diabolai.com/workshop"
             target="_blank"
             rel="noopener noreferrer"
             className="hidden sm:inline-flex btn-primary bg-ink text-westar rounded-full px-5 py-2 text-sm font-display font-semibold transition">
@@ -102,7 +102,7 @@ export default function Navbar() {
             </Link>
           ))}
           <a
-            href="https://www.diabolai.com/"
+            href="https://diabolai.com/workshop"
             target="_blank"
             rel="noopener noreferrer"
             className="sm:hidden inline-flex justify-center btn-primary bg-ink text-westar rounded-full px-5 py-2 text-sm font-display font-semibold transition">
